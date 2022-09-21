@@ -4,8 +4,11 @@ const path = require("path");
 const BASE_JS = "./src/public/js/";
 
 module.exports = {
+  devtool: "source-map",
   entry: {
     app: BASE_JS + "app.js",
+    chat: BASE_JS + "chat.js",
+    getChat: BASE_JS + "getChat.js",
   },
   //mode: "development", //only on dev mode
   //watch: true, //only on dev mode

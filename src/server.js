@@ -1,7 +1,7 @@
 import express from "express";
 import http from "http";
 // 컨트롤러
-import { getHome } from "./controllers";
+import { chatRoom, getHome, incomeChatRoom } from "./controllers";
 //  socket.io
 import { Server } from "socket.io";
 
@@ -13,6 +13,8 @@ app.use("/assets", express.static("assets"));
 
 // 라우팅
 app.get("/", getHome);
+app.get("/chat", chatRoom);
+app.get("/getchat", incomeChatRoom);
 
 // socketIO 세팅
 const httpServer = http.createServer(app);
@@ -24,7 +26,13 @@ const wsServer = new Server(httpServer, {
 });
 wsServer.on("connection", (socket) => {
   socket.onAny((event) => {
-    console.log(`🖕 Socket Event: ${event}`);
+    // console.log(`🖕 소켓 이벤트 종류: ${event}`);
+  });
+  socket.on("newText", (key) => {
+    if (key) {
+      wsServer.sockets.emit("getText", key);
+      console.log(key);
+    }
   });
 });
 
