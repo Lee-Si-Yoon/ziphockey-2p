@@ -1,0 +1,50 @@
+{
+  "name": "between",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/init.js",
+  "keywords": [],
+  "author": "LeeSiYoon",
+  "license": "MIT",
+  "scripts": {
+    "start": "node build/init.js",
+    "build": "npm run build:server && npm run build:assets",
+    "build:server": "babel src -d build",
+    "build:assets": "webpack --mode=production",
+    "dev": "nodemon",
+    "assets": "webpack --mode=development -w"
+  },
+  "dependencies": {
+    "express": "^4.18.1",
+    "pug": "^3.0.2",
+    "regenerator-runtime": "^0.13.9",
+    "sass": "^1.54.9",
+    "socket.io": "^4.5.2",
+    "webpack": "^5.74.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.19.1",
+    "@babel/node": "^7.19.1",
+    "@babel/preset-env": "^7.19.1",
+    "babel-loader": "^8.2.5",
+    "css-loader": "^6.7.1",
+    "file-loader": "^6.2.0",
+    "mini-css-extract-plugin": "^2.6.1",
+    "nodemon": "^2.0.20",
+    "sass-loader": "^13.0.2",
+    "webpack-cli": "^4.10.0"
+  },
+  "babel": {
+    "presets": [
+      "@babel/env"
+    ]
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "src/public/*",
+      "webpack.config.js"
+    ],
+    "exec": "babel-node src/init.js"
+  }
+}
