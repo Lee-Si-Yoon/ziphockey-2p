@@ -4,7 +4,12 @@ block content
     div#matter(data-html-matter)
         ul#textContainer.text__container
     form(method="post").chat__form
-        input(type="text", name="chat").chat__input#chatInput
-        
+        input(type="text", name="chat", autocomplete="off").chat__input#chatInput
+    div#fpsMeter
+        p#fps your fps:
+
     include partials/socket
-    script(src="/assets/js/chat.js") 
+    script(src="/assets/js/chat.js")
+    //- script(src="//cdn.jsdelivr.net/npm/eruda")
+    //- script.
+    //-     eruda.init();

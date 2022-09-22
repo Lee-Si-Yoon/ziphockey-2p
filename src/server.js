@@ -31,7 +31,7 @@ wsServer.on("connection", (socket) => {
   socket.on("newText", (key) => {
     if (key) {
       wsServer.sockets.emit("getText", key);
-      console.log(key);
+      // console.log(key);
     }
   });
 });

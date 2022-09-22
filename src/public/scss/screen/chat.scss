@@ -19,6 +19,8 @@
     transform: translateX(-50%);
     background-color: transparent;
     opacity: 0;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
   }
 }
 
@@ -40,7 +42,10 @@
 .chat__form {
   position: absolute;
   z-index: 99;
+  bottom: 0;
   input {
+    width: 100vw;
+    height: 4rem;
     z-index: 99;
   }
 }

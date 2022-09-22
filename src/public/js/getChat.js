@@ -43,7 +43,10 @@ function initMatter(matterHolder) {
   // 러너 생성
   const runner = Runner.create();
   Runner.run(runner, engine);
-  window.requestAnimationFrame(mapHTML);
+  const fps = 144;
+  setTimeout(() => {
+    window.requestAnimationFrame(mapHTML);
+  }, 1000 / fps);
 
   const placement = { x: 1, y: 1 };
   const spacing = { x: 300, y: 300 };
@@ -127,8 +130,9 @@ function initMatter(matterHolder) {
       targetObject.style.setProperty("--move-y", `${body.position.y}px`);
       targetObject.style.setProperty("--rotate", `${body.angle}rad`);
     });
-
-    window.requestAnimationFrame(mapHTML);
+    setTimeout(() => {
+      window.requestAnimationFrame(mapHTML);
+    }, 1000 / fps);
   }
 }
 
