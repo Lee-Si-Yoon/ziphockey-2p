@@ -9,6 +9,7 @@ module.exports = {
     app: BASE_JS + "app.js",
     chat: BASE_JS + "chat.js",
     getChat: BASE_JS + "getChat.js",
+    text: BASE_JS + "text.js",
   },
   //mode: "development", //only on dev mode
   //watch: true, //only on dev mode

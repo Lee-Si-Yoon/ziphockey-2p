@@ -19,7 +19,7 @@ using
 - [x] matter.js로 연동
 - [ ] chat.js에서 mapHTML에서 body 삭제하는 방법
 - [ ] chat.js에서 x위치 연동 시키기 + 좀더 방사형으로 뻗어나가게
-- [ ] 모바일로 보면 fps가 40이하로 고정되는 문제
+- [x] 모바일로 보면 fps가 40이하로 고정되는 문제 -> 개체수 조절
 
 ## [링크](https://between-gz.herokuapp.com/)
 

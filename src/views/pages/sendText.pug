@@ -1,0 +1,9 @@
+extends ../base
+
+block content
+    ul#textAreaContainer
+    form.send__form
+        textarea(autofocus cols="30", rows="10")
+        input(type="submit", value="보내기")
+    include ../partials/socket
+    script(src="/assets/js/text.js") 

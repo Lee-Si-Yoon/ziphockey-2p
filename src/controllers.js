@@ -9,3 +9,7 @@ export const chatRoom = (req, res) => {
 export const incomeChatRoom = (req, res) => {
   return res.render("getchat", { pageTitle: "receive" });
 };
+
+export const sendText = (req, res) => {
+  return res.render("pages/sendText", { pageTitle: "text" });
+};

@@ -47,9 +47,6 @@ function initMatter(matterHolder) {
   const runner = Runner.create();
   Runner.run(runner, engine);
 
-  // HTML 맵핑
-  // mapHTML();
-
   // const placement = { x: 1, y: 1 };
   // const spacing = { x: 300, y: 300 };
   createBoundingBox();
@@ -120,7 +117,7 @@ function initMatter(matterHolder) {
   }
 
   // raf
-  const fps = 74;
+  const fps = 60;
   let stop = false;
   let frameCount = 0;
   let fpsInterval, startTime, now, then, elapsed;
