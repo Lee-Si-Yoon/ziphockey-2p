@@ -1,12 +1,35 @@
 const socket = io();
 
 const lerp = (a, b, n) => parseFloat((1 - n) * a + n + b).toFixed(2);
+
 let rafId;
+
+class Degree {
+  constructor() {
+    this.heading = 0;
+    this.getDeg();
+  }
+  getDeg() {
+    if ("Magnetometer" in window) {
+      let sensor = new Magnetometer();
+      sensor.addEventListener("reading", (e) => {
+        this.heading = Math.atan2(e.target.y, e.target.x) * (180 / Math.PI);
+      });
+      sensor.start();
+    } else {
+      this.statusText.innerHTML = "sensor not here";
+    }
+  }
+}
 
 export default class TextArea {
   constructor(ulElement, formElement) {
+    this.statusContainer = document.getElementById("compassContainer");
+    this.statusText = this.statusContainer.children[0];
     this.textContainer = ulElement;
     this.form = formElement;
+    this.compass = new Degree();
+    this.degree = this.compass.heading;
     this.startPosition = { x: 0, y: 0 };
     this.velocity = 2;
     this.accel = 0.25;
@@ -43,6 +66,7 @@ export default class TextArea {
 
   // lerp 사용해서 가속도 구현
   render() {
+    this.statusText.innerHTML = this.heading;
     this.velocity += this.accel;
     console.log(rafId);
     this.startPosition.y = this.startPosition.y - this.velocity;
@@ -60,3 +84,8 @@ export default class TextArea {
     }
   }
 }
+
+const textarea = new TextArea(
+  document.getElementById("textAreaContainer"),
+  document.querySelector(".send__form")
+);

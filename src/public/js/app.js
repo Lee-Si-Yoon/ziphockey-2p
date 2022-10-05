@@ -1,5 +1,4 @@
 import { gsap } from "gsap";
-import TextArea from "./text";
 import "../scss/styles.scss";
 
 const socket = io();
@@ -13,8 +12,4 @@ window.onload = () => {
     duration: 1,
     ease: "Power3.easeOut",
   });
-  const textarea = new TextArea(
-    document.getElementById("textAreaContainer"),
-    document.querySelector(".send__form")
-  );
 };
