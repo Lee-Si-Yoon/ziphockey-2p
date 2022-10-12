@@ -1,8 +1,18 @@
 extends ../base
 
 block content
+    div#handler
+        button#handleButton 조타
+        div#handleContainer
+            form#handleForm
+                label(for="handleRight") 1번째
+                input(type="number", value="0")#handleRight
+                label(for="handleLeft") 2번째
+                input(type="number", value="0")#handleLeft
+                input(type="submit", value="지정")
     div#compassContainer
         p Degree:
+        p →
     ul#textAreaContainer
     form.send__form
         textarea(autofocus cols="30", rows="10")

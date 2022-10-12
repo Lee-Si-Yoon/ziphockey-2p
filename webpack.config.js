@@ -10,13 +10,15 @@ module.exports = {
     chat: BASE_JS + "chat.js",
     getChat: BASE_JS + "getChat.js",
     text: BASE_JS + "text.js",
+    getText: BASE_JS + "getText.js",
+    getTextLeft: BASE_JS + "getTextLeft.js",
   },
   //mode: "development", //only on dev mode
   //watch: true, //only on dev mode
   output: {
     filename: "js/[name].js",
     path: path.resolve(__dirname, "assets"),
-    clean: true,
+    // clean: true,
   },
   module: {
     rules: [

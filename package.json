@@ -9,7 +9,7 @@
   "scripts": {
     "start": "node build/init.js",
     "build": "npm run build:server && npm run build:assets",
-    "build:server": "babel src -d build",
+    "build:server": "babel src/ -d build",
     "build:assets": "webpack --mode=production",
     "dev": "nodemon",
     "assets": "webpack --mode=development -w"
@@ -39,12 +39,12 @@
   },
   "babel": {
     "presets": [
-      "@babel/env"
+      "@babel/preset-env"
     ]
   },
   "nodemonConfig": {
     "ignore": [
-      "src/public/*",
+      "src/public/**",
       "webpack.config.js"
     ],
     "exec": "babel-node src/init.js"

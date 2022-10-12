@@ -122,3 +122,13 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
+textarea {
+  outline: none;
+  box-shadow: none;
+  overflow: auto;
+  box-shadow: none;
+  resize: none;
+}
+input {
+  all: unset;
+}

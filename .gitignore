@@ -73,3 +73,8 @@ build/
 package-lock.json
 yarn.lock
 /build
+
+.firebase
+.firebaserc
+.github
+firebase.json

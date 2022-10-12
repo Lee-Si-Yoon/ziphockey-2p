@@ -1,7 +1,14 @@
 import express from "express";
 import http from "http";
 // 컨트롤러
-import { chatRoom, getHome, incomeChatRoom, sendText } from "./controllers";
+import {
+  chatRoom,
+  getHome,
+  incomeChatRoom,
+  sendText,
+  getRightText,
+  getLeftText,
+} from "./controllers";
 //  socket.io
 import { Server } from "socket.io";
 
@@ -15,7 +22,9 @@ app.use("/assets", express.static("assets"));
 app.get("/", getHome);
 app.get("/chat", chatRoom);
 app.get("/getchat", incomeChatRoom);
-app.get("/send", sendText);
+app.get("/sendText", sendText);
+app.get("/getTextRight", getRightText);
+app.get("/getTextLeft", getLeftText);
 
 // socketIO 세팅
 const httpServer = http.createServer(app);
@@ -34,6 +43,15 @@ wsServer.on("connection", (socket) => {
       wsServer.sockets.emit("getText", key);
       console.log(key);
     }
+  });
+  // 이 난잡함 어떡해...
+  socket.on("right", (key) => {
+    console.log("right" + key);
+    wsServer.sockets.emit("right", key);
+  });
+  socket.on("left", (key) => {
+    console.log("left" + key);
+    wsServer.sockets.emit("left", key);
   });
 });
 

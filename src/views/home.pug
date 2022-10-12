@@ -1,9 +1,17 @@
 extends base
 
 block content
-    section.intro 
-        a(href="/chat") 채팅하기
-        a(href="/getchat") 채팅받기
-        a(href="/send") 글쓰기
-    include partials/socket
+    section
+        ul
+            li
+                a(href="/chat") 채팅하기
+            li
+                a(href="/getchat") 채팅받기
+            li
+                a(href="/sendText") 글쓰기
+            li
+                a(href="/getTextRight") 우측글받기
+            li
+                a(href="/getTextLeft") 좌측글받기
+    //- include partials/socket
     script(src="/assets/js/app.js")

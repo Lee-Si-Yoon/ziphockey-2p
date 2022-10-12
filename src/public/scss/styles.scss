@@ -1,8 +1,17 @@
 // Config
 @import "./config/_reset.scss";
+@import "./config/_normalize.scss";
 // Pages
 @import "./screen/chat.scss";
 @import "./screen/text.scss";
+@import "./screen/home.scss";
+
+:root {
+  --black: #1a1b1d;
+  --sand: #f4ecdd;
+  --orange: #ec7141;
+  --green: #6f8b68;
+}
 
 a {
   color: inherit;
@@ -14,4 +23,6 @@ body {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   overflow-x: hidden;
   box-sizing: border-box;
+  background-color: var(--black);
+  color: white;
 }

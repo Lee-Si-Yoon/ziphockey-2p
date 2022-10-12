@@ -6,32 +6,99 @@
   flex-direction: column;
   align-items: center;
   textarea {
-    width: 90%;
-    border: 2px solid black;
-    outline-color: red;
+    width: 100%;
+    height: 2rem;
+    // border: 2px solid var(--sand);
+    // outline-color: red;
   }
   input {
-    width: 90%;
-    height: 2rem;
-    border: 0;
-    background-color: black;
-    color: white;
+    width: 100%;
+    height: 2.5rem;
+    background-color: gray;
+    text-align: center;
+    font-weight: 700;
   }
 }
 
 #textAreaContainer {
-  --move-y: 0px;
-  position: absolute;
-  background-color: darkslategrey;
-  top: var(--move-y);
-  left: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   li {
+    display: block;
+    background-color: darkslategrey;
     color: white;
     font-size: 1.2rem;
     font-weight: bold;
     padding: 1rem;
+    text-align: center;
+  }
+}
+#compassContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  row-gap: 20px;
+  :last-child {
+    font-size: 2rem;
+  }
+}
+#lightContainer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  :last-child {
+    font-size: 2rem;
+  }
+}
+#handler {
+  position: fixed;
+  top: 0;
+  display: flex;
+  z-index: 99;
+  width: 100%;
+  justify-content: center;
+  button {
+    all: unset;
+    background-color: gray;
+    padding: 0.5rem 0.75rem;
+    &:hover,
+    &:focus {
+      background-color: white;
+      color: var(--black);
+    }
+  }
+  #handleContainer {
+    display: none;
+    form {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      row-gap: 10px;
+      width: 300px;
+      label {
+        text-align: right;
+        padding-right: 10px;
+      }
+      input {
+        background-color: white;
+        color: black;
+        text-align: center;
+      }
+      :last-child {
+        grid-column: 1 / span 2;
+        background-color: gray;
+        color: white;
+        padding: 0.25rem 0;
+      }
+    }
   }
 }
