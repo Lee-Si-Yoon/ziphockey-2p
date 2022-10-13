@@ -23,6 +23,7 @@ using
 - [ ] light class랑 bypass 찢는 방법 고안
 - [ ] socket emit하는거 리펙토링
 - [ ] pug랑 css도 모듈화 고안
+- [ ] 조도 센서 신호등 처럼 색상 추가
 
 ## [링크](https://between-gz.herokuapp.com/)
 
