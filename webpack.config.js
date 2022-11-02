@@ -7,11 +7,7 @@ module.exports = {
   devtool: "source-map",
   entry: {
     app: BASE_JS + "app.js",
-    chat: BASE_JS + "chat.js",
-    getChat: BASE_JS + "getChat.js",
-    text: BASE_JS + "text.js",
-    getText: BASE_JS + "getText.js",
-    getTextLeft: BASE_JS + "getTextLeft.js",
+    hockey: BASE_JS + "hockey.js",
   },
   //mode: "development", //only on dev mode
   //watch: true, //only on dev mode

@@ -33,3 +33,12 @@ using
 - https://html2canvas.hertzen.com/
 - http://yhsong.com/2020touch/
 - https://www.yhsong.com/detail.html#The_Way_We_Touch_Each_Other_In_2020
+
+// 조이스틱
+// https://github.com/pothonprogramming/pothonprogramming.github.io/tree/master/content/touch-controller
+// https://pothonprogramming.github.io/content/touch-controller/touch-controller.html
+
+// 에어하키
+// https://github.com/DongChyeon/JS-Toy-Projects/blob/master/AirHockey/game.js#L18
+
+// https://www.youtube.com/watch?v=7PYvx8u_9Sk
