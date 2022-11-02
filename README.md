@@ -42,3 +42,7 @@ using
 // https://github.com/DongChyeon/JS-Toy-Projects/blob/master/AirHockey/game.js#L18
 
 // https://www.youtube.com/watch?v=7PYvx8u_9Sk
+
+https://github.com/nomadcoders/wetube-reloaded
+https://socket.io/docs/v4/rooms/
+zoom-clone

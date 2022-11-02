@@ -8,6 +8,8 @@ module.exports = {
   entry: {
     app: BASE_JS + "app.js",
     hockey: BASE_JS + "hockey.js",
+    roomList: BASE_JS + "roomList.js",
+    loading: BASE_JS + "loading.js",
   },
   //mode: "development", //only on dev mode
   //watch: true, //only on dev mode

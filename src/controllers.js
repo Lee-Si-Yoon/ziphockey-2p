@@ -1,7 +1,3 @@
-export const getHome = (req, res) => {
-  return res.render("home", { pageTitle: "Home" });
-};
-
 /**
  * generate static getpages
  * @param {string} htmlLocation
