@@ -2,6 +2,9 @@
 @import "./config/_reset.scss";
 @import "./config/_normalize.scss";
 // Pages
+@import "./screen/home.scss";
+@import "./screen/newRoom.scss";
+@import "./screen/ready.scss";
 
 :root {
   --black: #1a1b1d;
@@ -22,171 +25,118 @@ body {
 }
 
 .hidden {
-  transition: visibility 1s;
+  // transition: visibility 1s;
   visibility: hidden;
 }
 
-.home {
+.game {
   width: 100%;
   height: 100vh;
   display: flex;
-  position: absolute;
+  // position: absolute;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: var(--black);
-  color: var(--sand);
-
-  .title {
-    text-align: center;
+  position: absolute;
+  .game__container {
+    width: 100%;
+    height: 50%;
+    position: relative;
+    background-color: var(--sand);
+    .game__ball {
+      position: absolute;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 2.5rem;
+      background-color: var(--black);
+    }
+    .game__player {
+      position: absolute;
+      width: 5rem;
+      height: 5rem;
+      border-radius: 2.5rem;
+      background-color: var(--orange);
+    }
+    .walls {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      .wall {
+        background-color: var(--orange);
+        position: absolute;
+        &.B {
+          bottom: 0;
+        }
+        &.R {
+          right: 0;
+        }
+        &.B,
+        &.T {
+          width: 100%;
+          height: 3px;
+        }
+        &.R,
+        &.L {
+          height: 100%;
+          width: 3px;
+        }
+      }
+    }
   }
-
-  .entry__section {
-    line-height: 200%;
-    margin-top: 2rem;
-    ul {
-      li {
-        margin-top: 1rem;
-        text-align: center;
-        form {
-          input {
-            padding: 0.5rem 0;
-            border: none;
-            &:nth-child(1) {
-              background-color: white;
-              color: var(--black);
-            }
-            &:nth-child(2) {
-              padding: 0.5rem 0.5rem;
-              color: var(--black);
-              background-color: var(--sand);
-            }
+  .game__controller {
+    width: 100%;
+    height: 50%;
+    color: var(--sand);
+    background-color: var(--black);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .game__status {
+      width: 100%;
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      p {
+        padding: 0 1rem;
+      }
+    }
+    .joystick {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .stick__container {
+        width: 20rem;
+        height: 20rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        touch-action: none;
+        .stick {
+          width: 6rem;
+          height: 6rem;
+          border-radius: 0.5rem;
+          background-color: var(--orange);
+          position: absolute;
+          touch-action: none;
+          &.T {
+            top: 0;
+          }
+          &.R {
+            right: 0;
+          }
+          &.B {
+            bottom: 0;
+          }
+          &.L {
+            left: 0;
           }
         }
       }
     }
   }
 }
-
-.newroom {
-  position: absolute;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: var(--black);
-  color: var(--sand);
-  .title {
-    text-align: center;
-    font-size: 1.5rem;
-  }
-  .back {
-    margin-top: 1rem;
-  }
-  form {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    line-height: 200%;
-    justify-content: center;
-    align-items: center;
-    .room__capacity__container {
-      margin-top: 0.5rem;
-      display: flex;
-      align-items: center;
-      button {
-        width: 44px;
-        height: 44px;
-        border-radius: 100%;
-        border: 1px solid var(--sand);
-        background: none;
-        color: var(--sand);
-      }
-      .room__capacity__number {
-        text-align: center;
-        font-size: 2rem;
-      }
-    }
-    .submit__btn {
-      margin-top: 2rem;
-      padding: 0.5rem 1rem;
-      border-radius: 2rem;
-      background-color: var(--sand);
-      color: var(--black);
-      text-align: center;
-      font-size: 1.5rem;
-    }
-  }
-}
-
-.ready {
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: var(--black);
-  .phone__container {
-    margin-top: 2rem;
-    .phone01 {
-      width: 150px;
-      height: 300px;
-      background-color: var(--black);
-    }
-  }
-  .title {
-    text-align: center;
-    font-size: 1.5rem;
-  }
-  #ready__button {
-    margin-top: 2rem;
-    color: white;
-    padding: 1rem 2rem;
-    border-radius: 1rem;
-  }
-  .orange {
-    background-color: var(--orange);
-  }
-  .green {
-    background-color: var(--green);
-  }
-}
-
-// .roomlist {
-//   width: 100%;
-//   height: 100vh;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   background-color: var(--black);
-//   color: var(--sand);
-
-//   .title {
-//     text-align: center;
-//     font-size: 1.5rem;
-//   }
-//   .back {
-//     margin-top: 2rem;
-//   }
-
-//   .roomlist__container {
-//     width: calc(100% - 3rem);
-//     margin-top: 2rem;
-//     line-height: 300%;
-//     .roomlist__item {
-//       display: flex;
-//       justify-content: space-between;
-//       a {
-//         padding: 0 1rem;
-//         border-radius: 0.5rem;
-//         background-color: var(--sand);
-//         color: var(--black);
-//       }
-//     }
-//   }
-// }
