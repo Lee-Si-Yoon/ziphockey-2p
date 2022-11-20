@@ -1,8 +1,21 @@
-// const socket = io();
+var socket = io();
 import { gsap } from "gsap";
 import "../scss/styles.scss";
 
 const body = document.querySelector("body");
+
+let clientBalls = {};
+
+socket.on("makeRoom", (clientNo) => {
+  const container = document.querySelector(".playground__container");
+  const data = document.getElementById("data");
+  data.innerHTML = "player: " + clientNo;
+  if (+clientNo === 1) {
+    window.scrollTo(0, window.innerHeight);
+  } else {
+    window.scrollTo(window.innerWidth, 0);
+  }
+});
 
 /**
  * 페이지 숨기고 보여줄 때 사용
@@ -21,5 +34,4 @@ window.onload = () => {
     duration: 1,
     ease: "Power3.easeOut",
   });
-
 };

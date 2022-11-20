@@ -16,9 +16,21 @@ app.use("/assets", express.static("assets"));
 // 라우팅
 app.get("/", staticPage("home", "welcome"));
 
-io.on("connection", (socket) => {
+// SOCKET
+// https://github.com/danielszabo88/CapsuleSoccer/blob/master/05%20-%20Adding%20socket.io%20Rooms/server.js
+// line 850
+let players = {};
+let clientNo = 0;
+let roomNo;
 
-});
-
+io.on("connection", connected);
+function connected(socket) {
+  clientNo++;
+  roomNo = Math.round(clientNo / 2);
+  socket.join(roomNo);
+  console.log(`New client no.: ${clientNo}, room no.: ${roomNo}`);
+  socket.emit("makeRoom", clientNo % 2);
+  socket.on("disconnect", function () {});
+}
 
 export default httpServer;

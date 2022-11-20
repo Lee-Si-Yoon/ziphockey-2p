@@ -1,4 +1,23 @@
 extends base
 
 block content
-  h1 this is home
+  div.play
+    section.controller__P2
+      div.button__container
+        div.button.up
+        div.button.left
+        div.button.bottom
+        div.button.right
+
+    section.playground
+      div.playground__container
+
+    section.controller__P1
+      div.button__container
+        div.button.up
+        div.button.left
+        div.button.bottom
+        div.button.right
+
+  script(src="/socket.io/socket.io.js") 
+  script(src="/assets/js/app.js")
