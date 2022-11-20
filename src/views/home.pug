@@ -3,21 +3,39 @@ extends base
 block content
   div.play
     section.controller__P2
+      div.status__container
+        div.status__P2
+          p room:
+          p player: 0
+        button.lock__button__P2 lock
       div.button__container
         div.button.up
         div.button.left
         div.button.bottom
         div.button.right
+      div.scoring__container
+        div.score__P2
+          p score 1
+          p left time
 
     section.playground
       div.playground__container
 
     section.controller__P1
+      div.scoring__container
+        div.score__P1
+          p score 1
+          p left time
       div.button__container
         div.button.up
         div.button.left
         div.button.bottom
         div.button.right
+      div.status__container
+        div.status__P1
+          p room:
+          p player: 0
+        button.lock__button__P1 lock
 
   script(src="/socket.io/socket.io.js") 
   script(src="/assets/js/app.js")

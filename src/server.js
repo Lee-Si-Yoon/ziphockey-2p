@@ -24,12 +24,13 @@ let clientNo = 0;
 let roomNo;
 
 io.on("connection", connected);
+
 function connected(socket) {
   clientNo++;
   roomNo = Math.round(clientNo / 2);
   socket.join(roomNo);
   console.log(`New client no.: ${clientNo}, room no.: ${roomNo}`);
-  socket.emit("makeRoom", clientNo % 2);
+  io.to(socket.id).emit("makeRoom", clientNo, roomNo);
   socket.on("disconnect", function () {});
 }
 

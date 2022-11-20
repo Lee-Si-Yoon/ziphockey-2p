@@ -6,15 +6,28 @@ const body = document.querySelector("body");
 
 let clientBalls = {};
 
-socket.on("makeRoom", (clientNo) => {
-  const container = document.querySelector(".playground__container");
-  const data = document.getElementById("data");
-  data.innerHTML = "player: " + clientNo;
-  if (+clientNo === 1) {
-    window.scrollTo(0, window.innerHeight);
+socket.on("makeRoom", (clientNo, roomNo) => {
+  const statusP1 = document.querySelector(".status__P1");
+  const statusP2 = document.querySelector(".status__P2");
+  const playerNum = +clientNo % 2;
+  if (playerNum === 1) {
+    // 1번 플레이어
+    statusP1.children[0].innerHTML = "room: " + roomNo;
+    statusP1.children[1].innerHTML = "player: " + clientNo;
   } else {
-    window.scrollTo(window.innerWidth, 0);
+    // 2번 플레이어
+    statusP2.children[0].innerHTML = "room: " + roomNo;
+    statusP2.children[1].innerHTML = "player: " + clientNo;
   }
+});
+
+const lockBtnP1 = document.querySelector(".lock__button__P1");
+const lockBtnP2 = document.querySelector(".lock__button__P2");
+lockBtnP1.addEventListener("click", () => {
+  body.style.overflow = "hidden";
+});
+lockBtnP2.addEventListener("click", () => {
+  body.style.overflow = "hidden";
 });
 
 /**

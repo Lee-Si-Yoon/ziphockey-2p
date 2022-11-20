@@ -20,7 +20,7 @@ body {
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow: hidden;
+  // overflow: hidden;
 }
 
 .play {
@@ -32,6 +32,12 @@ body {
   height: 150vh;
   position: relative;
 
+  .playground {
+    width: 200vw;
+    height: 50vh;
+    background-color: var(--sand);
+  }
+
   .controller__P2 {
     position: absolute;
     width: 100vw;
@@ -40,15 +46,44 @@ body {
     right: 0;
     top: 0;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-  }
-  .playground {
-    width: 200vw;
-    height: 50vh;
-    background-color: var(--sand);
+    .status__container {
+      transform: rotate(-180deg);
+      width: 90%;
+      height: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .status__P2 {
+        display: flex;
+        font-size: 1.5rem;
+        color: var(--sand);
+        p:first-child {
+          margin-right: 2.5rem;
+        }
+      }
+    }
+    .scoring__container {
+      transform: rotate(-180deg);
+      width: 90%;
+      height: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .score__P2 {
+        display: flex;
+        font-size: 1.5rem;
+        color: var(--sand);
+        p:first-child {
+          margin-right: 2.5rem;
+        }
+      }
+    }
   }
   .controller__P1 {
+    flex-direction: column;
     position: absolute;
     width: 100vw;
     height: 50vh;
@@ -56,8 +91,38 @@ body {
     left: 0;
     bottom: 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    .status__container {
+      width: 90%;
+      height: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .status__P1 {
+        display: flex;
+        font-size: 1.5rem;
+        color: var(--sand);
+        p:first-child {
+          margin-right: 2.5rem;
+        }
+      }
+    }
+    .scoring__container {
+      width: 90%;
+      height: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .score__P1 {
+        display: flex;
+        font-size: 1.5rem;
+        color: var(--sand);
+        p:first-child {
+          margin-right: 2.5rem;
+        }
+      }
+    }
   }
 }
 
