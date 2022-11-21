@@ -142,6 +142,7 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
+  touch-action: none;
   .button {
     position: absolute;
     width: 100px;
@@ -170,6 +171,7 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
+  touch-action: none;
   .button {
     position: absolute;
     width: 100px;

@@ -4,93 +4,158 @@ import "../scss/styles.scss";
 
 let controls = { left: false, right: false, up: false, down: false };
 
-class Button {
-  constructor(elem) {
-    this.active = false;
-    this.elem = elem;
-    this.name = elem.classList[1];
-    this.height = elem.offsetHeight;
-    this.width = elem.offsetWidth;
-    this.x = elem.getBoundingClientRect().left;
-    this.y = elem.getBoundingClientRect().top;
-  }
-  containsPoint(x, y) {
-    // if the point is outside of the rectangle return false:
-    if (x < this.x || x > this.x + this.width || y < this.y || y > this.y + this.height) {
-      return false;
-    }
-    return true;
-  }
-}
+// class Button {
+//   constructor(elem) {
+//     this.active = false;
+//     this.elem = elem;
+//     this.name = elem.classList[1];
+//     this.x = elem.getBoundingClientRect().left;
+//     this.y = elem.getBoundingClientRect().top;
+//     this.height = elem.getBoundingClientRect().height;
+//     this.width = elem.getBoundingClientRect().width;
+//   }
+//   containsPoint(x, y) {
+//     // if the point is outside of the rectangle return false:
+//     if (x < this.x || x > this.x + this.width || y < this.y || y > this.y + this.height) {
+//       return false;
+//     }
+//     return true;
+//   }
+// }
+
+// class Controller {
+//   constructor(elem) {
+//     this.elem = elem;
+//     this.childrens = [...this.elem.children];
+//     this.buttons = [
+//       new Button(this.childrens[0]),
+//       new Button(this.childrens[1]),
+//       new Button(this.childrens[2]),
+//       new Button(this.childrens[3]),
+//     ];
+//     // console.log(this.buttons);
+//     this.testButtons = (e) => {
+//       console.log(e);
+//       // console.log(e.x, this.buttons[0].x, this.buttons[0].width);
+//       for (const i of this.buttons) {
+//         i.active = false;
+//         if (i.containsPoint(e.x, e.y)) {
+//           i.active = true;
+//           break;
+//         }
+//       }
+//     };
+
+//     this.killButtons = (_) => {
+//       for (const i of this.buttons) {
+//         i.active = false;
+//       }
+//     };
+
+//     this.elem.addEventListener("pointerup", this.killButtons);
+//     this.elem.addEventListener("pointermove", this.testButtons);
+//     this.elem.addEventListener("pointerdown", this.testButtons);
+
+//     this.render = () => {
+//       for (const i of this.buttons) {
+//         if (i.active) {
+//           i.elem.style.backgroundColor = "black";
+//           if (i.name === "left") {
+//             controls.left = true;
+//           }
+//           if (i.name === "right") {
+//             controls.right = true;
+//           }
+//           if (i.name === "up") {
+//             controls.up = true;
+//           }
+//           if (i.name === "down") {
+//             controls.down = true;
+//           }
+//         } else {
+//           i.elem.style.backgroundColor = "white";
+//           if (i.name === "left") {
+//             controls.left = false;
+//           }
+//           if (i.name === "right") {
+//             controls.right = false;
+//           }
+//           if (i.name === "up") {
+//             controls.up = false;
+//           }
+//           if (i.name === "down") {
+//             controls.down = false;
+//           }
+//         }
+//         // console.log(controls);
+//       }
+//       requestAnimationFrame(this.render);
+//     };
+//   }
+// }
+
+let justPressed = false;
 
 class Controller {
-  constructor(elem) {
+  constructor(elem, controls) {
     this.elem = elem;
-    this.childrens = [...this.elem.children];
-    this.buttons = [
-      new Button(this.childrens[0]),
-      new Button(this.childrens[1]),
-      new Button(this.childrens[2]),
-      new Button(this.childrens[3]),
-    ];
-    // console.log(this.buttons);
-    this.testButtons = (e) => {
-      for (const i of this.buttons) {
-        i.active = false;
-        if (i.containsPoint(e.x, e.y)) {
-          i.active = true;
-          break;
-        }
-      }
-    };
-    this.killButtons = (_) => {
-      for (const i of this.buttons) {
-        i.active = false;
-      }
-    };
-
-    this.elem.addEventListener("pointerup", this.killButtons);
-    this.elem.addEventListener("pointermove", this.testButtons);
-    this.elem.addEventListener("pointerdown", this.testButtons);
-
-    this.render = () => {
-      for (const i of this.buttons) {
-        if (i.active) {
-          i.elem.style.backgroundColor = "black";
-          if (i.name === "left") {
+    this.controls = controls;
+    this.children = [...this.elem.children];
+    this.children.forEach((c) => {
+      c.style.backgroundColor = "white";
+    });
+    this.pointerDownEvent = (e) => {
+      // console.log(e.target);
+      for (let btn in this.children) {
+        if (this.children[btn] === e.target) {
+          this.children[btn].style.backgroundColor = "black";
+          if (e.target.classList[1] === "up") {
+            // this.children[btn].style.backgroundColor = "white";
+            controls.up = true;
+          } else if (e.target.classList[1] === "down") {
+            controls.down = true;
+          } else if (e.target.classList[1] === "right") {
+            controls.right = true;
+          } else if (e.target.classList[1] === "left") {
             controls.left = true;
           }
-          if (i.name === "right") {
-            controls.right = true;
-          }
-          if (i.name === "up") {
-            controls.up = true;
-          }
-          if (i.name === "down") {
-            controls.down = true;
-          }
-        } else {
-          i.elem.style.backgroundColor = "white";
-          if (i.name === "left") {
+        }
+      }
+      console.log(controls);
+      this.emitCommands(controls);
+    };
+    this.pointerUpEvent = (e) => {
+      // console.log(e.target);
+      for (let btn in this.children) {
+        if (this.children[btn] === e.target) {
+          this.children[btn].style.backgroundColor = "white";
+          if (e.target.classList[1] === "up") {
+            controls.up = false;
+          } else if (e.target.classList[1] === "down") {
+            controls.down = false;
+          } else if (e.target.classList[1] === "right") {
+            controls.right = false;
+          } else if (e.target.classList[1] === "left") {
             controls.left = false;
           }
-          if (i.name === "right") {
-            controls.right = false;
-          }
-          if (i.name === "up") {
-            controls.up = false;
-          }
-          if (i.name === "down") {
-            controls.down = false;
-          }
         }
-        // console.log(controls);
       }
-      requestAnimationFrame(this.render);
+      // this.emitCommands(controls);
     };
+    this.pointerMoveEvent = (e) => {
+      // console.log(e);
+    };
+    this.children.forEach((c) => {
+      c.addEventListener("pointermove", this.pointerMoveEvent);
+      c.addEventListener("pointerup", this.pointerUpEvent);
+      c.addEventListener("pointerdown", this.pointerDownEvent);
+    });
+  }
+  emitCommands(controls) {
+    socket.emit("userCommands", controls);
   }
 }
-// TODO block 손보기
+
 class Racket {
   constructor(x, y, elem, id) {
     this.x = x;
@@ -144,20 +209,26 @@ socket.on("updateConnections", (player, clientNo, roomNo) => {
       }
       if (id === selfID) {
         const buttonContainer1 = document.querySelector(".button__container__P1");
-        const control1 = new Controller(buttonContainer1);
         const buttonContainer2 = document.querySelector(".button__container__P2");
-        const control2 = new Controller(buttonContainer2);
-
-        // console.log(player[selfID].no);
         if (player[selfID].no === 1) {
-          control1.render();
+          const control1 = new Controller(buttonContainer1, controls);
         } else if (player[selfID].no === 2) {
-          control2.render();
+          const control2 = new Controller(buttonContainer2, controls);
         }
 
-        setInterval(() => {
-          socket.emit("userCommands", controls);
-        }, 1000 / 60);
+        // const buttonContainer1 = document.querySelector(".button__container__P1");
+        // const control1 = new Controller(buttonContainer1);
+        // const buttonContainer2 = document.querySelector(".button__container__P2");
+        // const control2 = new Controller(buttonContainer2);
+        // // console.log(player[selfID].no);
+        // if (player[selfID].no === 1) {
+        //   control1.render();
+        // } else if (player[selfID].no === 2) {
+        //   control2.render();
+        // }
+        // setInterval(() => {
+        //   socket.emit("userCommands", controls);
+        // }, 1000 / 60);
       }
     }
     playersFound[id] = true;
@@ -180,67 +251,6 @@ socket.on("positionUpdate", (playerReg) => {
     }
   }
 });
-
-// socket.on("deletePlayer", (player) => {
-//   console.log("called deletePlayer");
-//   if (clientRackets[player.id]) {
-//     delete clientRackets[player.id];
-//     console.log(clientRackets);
-//     // TODO delete ball
-//   }
-// });
-
-// socket.on("connect", () => {
-//   selfId = socket.id;
-// });
-
-// socket.on("updatePlayers", (players) => {
-//   // const racketP1 = document.querySelector(".racket__P1");
-//   // const racketP2 = document.querySelector(".racket__P1");
-//   playersFound = {};
-//   const racket1 = document.createElement("div");
-//   racket1.classList.add("racket");
-//   racket1.classList.add("racket__P1");
-//   console.log("update players" + players);
-// });
-
-// const buttonContainer1 = document.querySelector(".button__container__P1");
-// const control1 = new Controller(buttonContainer1);
-// const buttonContainer2 = document.querySelector(".button__container__P2");
-// const control2 = new Controller(buttonContainer2);
-// control1.render();
-// control2.render();
-// setInterval(() => {
-//   socket.emit("userCommands", controls);
-// }, 1000 / 60);
-
-// socket.on("makeRoom", (clientNo, roomNo) => {
-//   console.log(clientNo);
-//   const statusP1 = document.querySelector(".status__P1");
-//   const statusP2 = document.querySelector(".status__P2");
-//   const playerNum = +clientNo % 2;
-//   if (playerNum === 1) {
-//     // 1번 플레이어
-//     // statusP1.children[0].innerHTML = "room: " + roomNo;
-//     statusP1.children[1].innerHTML = "player: " + clientNo;
-//     const buttonContainer = document.querySelector(".button__container__P1");
-//     const control = new Controller(buttonContainer);
-//     control.render();
-//     setInterval(() => {
-//       socket.emit("userCommands", controls);
-//     }, 1000 / 60);
-//   } else {
-//     // 2번 플레이어
-//     // statusP2.children[0].innerHTML = "room: " + roomNo;
-//     statusP2.children[1].innerHTML = "player: " + clientNo;
-//     const buttonContainer = document.querySelector(".button__container__P2");
-//     const control = new Controller(buttonContainer);
-//     control.render();
-//     setInterval(() => {
-//       socket.emit("userCommands", controls);
-//     }, 1000 / 60);
-//   }
-// });
 
 /** DOM 기능들 */
 function lockButton() {
