@@ -4,98 +4,6 @@ import "../scss/styles.scss";
 
 let controls = { left: false, right: false, up: false, down: false };
 
-// class Button {
-//   constructor(elem) {
-//     this.active = false;
-//     this.elem = elem;
-//     this.name = elem.classList[1];
-//     this.x = elem.getBoundingClientRect().left;
-//     this.y = elem.getBoundingClientRect().top;
-//     this.height = elem.getBoundingClientRect().height;
-//     this.width = elem.getBoundingClientRect().width;
-//   }
-//   containsPoint(x, y) {
-//     // if the point is outside of the rectangle return false:
-//     if (x < this.x || x > this.x + this.width || y < this.y || y > this.y + this.height) {
-//       return false;
-//     }
-//     return true;
-//   }
-// }
-
-// class Controller {
-//   constructor(elem) {
-//     this.elem = elem;
-//     this.childrens = [...this.elem.children];
-//     this.buttons = [
-//       new Button(this.childrens[0]),
-//       new Button(this.childrens[1]),
-//       new Button(this.childrens[2]),
-//       new Button(this.childrens[3]),
-//     ];
-//     // console.log(this.buttons);
-//     this.testButtons = (e) => {
-//       console.log(e);
-//       // console.log(e.x, this.buttons[0].x, this.buttons[0].width);
-//       for (const i of this.buttons) {
-//         i.active = false;
-//         if (i.containsPoint(e.x, e.y)) {
-//           i.active = true;
-//           break;
-//         }
-//       }
-//     };
-
-//     this.killButtons = (_) => {
-//       for (const i of this.buttons) {
-//         i.active = false;
-//       }
-//     };
-
-//     this.elem.addEventListener("pointerup", this.killButtons);
-//     this.elem.addEventListener("pointermove", this.testButtons);
-//     this.elem.addEventListener("pointerdown", this.testButtons);
-
-//     this.render = () => {
-//       for (const i of this.buttons) {
-//         if (i.active) {
-//           i.elem.style.backgroundColor = "black";
-//           if (i.name === "left") {
-//             controls.left = true;
-//           }
-//           if (i.name === "right") {
-//             controls.right = true;
-//           }
-//           if (i.name === "up") {
-//             controls.up = true;
-//           }
-//           if (i.name === "down") {
-//             controls.down = true;
-//           }
-//         } else {
-//           i.elem.style.backgroundColor = "white";
-//           if (i.name === "left") {
-//             controls.left = false;
-//           }
-//           if (i.name === "right") {
-//             controls.right = false;
-//           }
-//           if (i.name === "up") {
-//             controls.up = false;
-//           }
-//           if (i.name === "down") {
-//             controls.down = false;
-//           }
-//         }
-//         // console.log(controls);
-//       }
-//       requestAnimationFrame(this.render);
-//     };
-//   }
-// }
-
-let justPressed = false;
-
 class Controller {
   constructor(elem, controls) {
     this.elem = elem;
@@ -121,7 +29,7 @@ class Controller {
           }
         }
       }
-      console.log(controls);
+      // console.log(controls);
       this.emitCommands(controls);
     };
     this.pointerUpEvent = (e) => {
@@ -179,12 +87,38 @@ class Racket {
   }
 }
 
+class Ball {
+  constructor(x, y, elem) {
+    this.x = x;
+    this.y = y;
+    this.nx = x;
+    this.ny = y;
+    this.velocity = { x: 0, y: 0 };
+    this.mass = 3;
+    this.speed = 7;
+    this.elem = elem;
+    this.radius = elem.getBoundingClientRect().width / 2;
+  }
+
+  draw(newX, newY) {
+    gsap.to(this.elem, {
+      x: newX - this.radius,
+      y: newY - this.radius,
+      ease: "power4.out",
+    });
+  }
+}
+
 let selfID;
 let clientRackets = {};
+let hockeyBall;
 
 socket.on("connect", () => {
   console.log("emit NewPlayer with id: " + socket.id);
   selfID = socket.id;
+  const playground = document.querySelector(".playground");
+  const { width, height } = playground.getBoundingClientRect();
+  socket.emit("NewPlayground", { width, height });
 });
 
 socket.on("updateConnections", (player, clientNo, roomNo) => {
@@ -198,6 +132,7 @@ socket.on("updateConnections", (player, clientNo, roomNo) => {
       racketDiv.classList.add("racket");
       playground.appendChild(racketDiv);
       clientRackets[id] = new Racket(player[id].x, player[id].y, racketDiv, player[id].id);
+      // TODO 플레이어 상태 타이밍 맞게 업로드
       if (player[id].no === 1) {
         const statusContainer = document.querySelector(".status__P1");
         statusContainer.children[0].innerHTML = "room: " + roomNo;
@@ -215,20 +150,6 @@ socket.on("updateConnections", (player, clientNo, roomNo) => {
         } else if (player[selfID].no === 2) {
           const control2 = new Controller(buttonContainer2, controls);
         }
-
-        // const buttonContainer1 = document.querySelector(".button__container__P1");
-        // const control1 = new Controller(buttonContainer1);
-        // const buttonContainer2 = document.querySelector(".button__container__P2");
-        // const control2 = new Controller(buttonContainer2);
-        // // console.log(player[selfID].no);
-        // if (player[selfID].no === 1) {
-        //   control1.render();
-        // } else if (player[selfID].no === 2) {
-        //   control2.render();
-        // }
-        // setInterval(() => {
-        //   socket.emit("userCommands", controls);
-        // }, 1000 / 60);
       }
     }
     playersFound[id] = true;
@@ -249,6 +170,19 @@ socket.on("positionUpdate", (playerReg) => {
       // console.log(clientRackets[id]);
       clientRackets[id].draw(playerReg[id].x, playerReg[id].y);
     }
+  }
+});
+
+socket.on("updateHockeyBall", (hockeyBallReg) => {
+  // console.log("getting ", hockeyBallReg);
+  if (hockeyBall === undefined) {
+    const playground = document.querySelector(".playground__container");
+    const ballDiv = document.createElement("div");
+    ballDiv.classList.add("ball");
+    playground.appendChild(ballDiv);
+    hockeyBall = new Ball(hockeyBallReg.x, hockeyBallReg.y, ballDiv);
+  } else {
+    hockeyBall.draw(hockeyBallReg.x, hockeyBallReg.y);
   }
 });
 

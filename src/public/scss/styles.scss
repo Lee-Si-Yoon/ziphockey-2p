@@ -39,10 +39,17 @@ body {
     position: relative;
     .racket {
       position: absolute;
-      width: 5rem;
-      height: 5rem;
-      border-radius: 2.5rem;
+      width: 44px;
+      height: 44px;
+      border-radius: 22px;
       background-color: var(--orange);
+    }
+    .ball {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      border-radius: 22px;
+      background-color: var(--black);
     }
   }
 
