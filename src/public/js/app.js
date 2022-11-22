@@ -76,6 +76,7 @@ class Racket {
     this.speed = 7;
     this.elem = elem;
     this.radius = elem.getBoundingClientRect().width / 2;
+    this.score = 0;
   }
 
   draw(newX, newY) {
@@ -184,6 +185,33 @@ socket.on("updateHockeyBall", (hockeyBallReg) => {
   } else {
     hockeyBall.draw(hockeyBallReg.x, hockeyBallReg.y);
   }
+});
+
+socket.on("updateScore", (scorerId) => {
+  if (scorerId === null) {
+    for (let id in clientRackets) {
+      clientRackets[id].score = 0;
+    }
+  } else {
+    for (let id in clientRackets) {
+      if (id === scorerId) {
+        if (clientRackets[id].no === 1) {
+          clientRackets[id].score++;
+          console.log("score for player 1!");
+        } else if (clientRackets[id].no === 2) {
+          clientRackets[id].score++;
+          console.log("score for player 2!");
+        }
+      }
+    }
+  }
+});
+
+socket.on("collision__P1", () => {
+  console.log("collision__P1");
+});
+socket.on("collision__P2", () => {
+  console.log("collision__P2");
 });
 
 /** DOM 기능들 */

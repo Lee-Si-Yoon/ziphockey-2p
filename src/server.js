@@ -18,6 +18,7 @@ class Racket {
     // set
     this.no;
     this.field = { width: 0, height: 0 };
+    this.score = 0;
     BODIES.push(this);
   }
   block__upAndDown() {
@@ -141,8 +142,10 @@ class Ball {
     if (this.player1 !== undefined && this.player2 !== undefined) {
       if (this.collision(this.player1)) {
         this.velocity = this.getVelocity(this.player1);
+        io.emit("collision__P1");
       } else if (this.collision(this.player2)) {
         this.velocity = this.getVelocity(this.player2);
+        io.emit("collision__P2");
       }
     }
 
@@ -304,6 +307,7 @@ function connected(socket) {
     serverRackets[socket.id].up = data.up;
     serverRackets[socket.id].right = data.right;
     serverRackets[socket.id].down = data.down;
+    // TODO 컨트롤 계속 true로 두지 않기
   });
 }
 
@@ -326,10 +330,78 @@ function serverLoop() {
   } else {
     if (hockeyBall.player1 !== undefined && hockeyBall.player2 !== undefined) {
       hockeyBallReg = { x: hockeyBall.x, y: hockeyBall.y };
+      gameLogic();
     }
   }
   io.emit("positionUpdate", playerReg);
   io.emit("updateHockeyBall", hockeyBallReg);
+}
+
+function gameLogic() {
+  if (
+    hockeyBall.x <= hockeyBall.radius ||
+    hockeyBall.x >= hockeyBall.field.width - hockeyBall.radius
+  ) {
+    scoring();
+  }
+  for (let id in serverRackets) {
+    if (serverRackets[id].score === 3) {
+      gameOver();
+    }
+  }
+}
+
+function gameOver() {
+  console.log("Game Over");
+  gameSetup();
+  io.emit("updateScore", null);
+  setTimeout(() => {
+    for (let id in serverRackets) {
+      serverRackets[id].score = 0;
+    }
+  }, 2000);
+}
+
+function scoring() {
+  let scorerId;
+
+  if (hockeyBall.x <= hockeyBall.radius) {
+    for (let id in serverRackets) {
+      if (serverRackets[id].no === 2) {
+        serverRackets[id].score++;
+        scorerId = id;
+        console.log("score for player 2!");
+      }
+    }
+  }
+  if (hockeyBall.x >= hockeyBall.field.width - hockeyBall.radius) {
+    for (let id in serverRackets) {
+      if (serverRackets[id].no === 1) {
+        serverRackets[id].score++;
+        scorerId = id;
+        console.log("score for player 1!");
+      }
+    }
+  }
+  gameSetup();
+  // TODO 여기에 딜레이 줘서 바로 시작하지 못하게
+  // TODO 잠시 스탑 이벤트 만들기 3,2,1....
+  io.emit("updateScore", scorerId);
+}
+
+function gameSetup() {
+  for (let id in serverRackets) {
+    if (serverRackets[id].no === 1) {
+      serverRackets[id].x = serverRackets[id].field.width * 0.25;
+      serverRackets[id].y = serverRackets[id].field.height * 0.5;
+    }
+    if (serverRackets[id].no === 2) {
+      serverRackets[id].x = serverRackets[id].field.width * 0.75;
+      serverRackets[id].y = serverRackets[id].field.height * 0.5;
+    }
+  }
+  hockeyBall.x = hockeyBall.field.width * 0.3;
+  hockeyBall.y = hockeyBall.field.height * 0.5;
 }
 
 export default httpServer;
