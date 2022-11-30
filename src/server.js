@@ -346,20 +346,9 @@ function gameLogic() {
   }
   for (let id in serverRackets) {
     if (serverRackets[id].score === 3) {
-      gameOver();
+      // gameOver();
     }
   }
-}
-
-function gameOver() {
-  console.log("Game Over");
-  gameSetup();
-  io.emit("updateScore", null);
-  setTimeout(() => {
-    for (let id in serverRackets) {
-      serverRackets[id].score = 0;
-    }
-  }, 2000);
 }
 
 function scoring() {
@@ -387,6 +376,17 @@ function scoring() {
   // TODO 여기에 딜레이 줘서 바로 시작하지 못하게
   // TODO 잠시 스탑 이벤트 만들기 3,2,1....
   io.emit("updateScore", scorerId);
+}
+
+function gameOver() {
+  console.log("Game Over");
+  gameSetup();
+  io.emit("updateScore", null);
+  setTimeout(() => {
+    for (let id in serverRackets) {
+      serverRackets[id].score = 0;
+    }
+  }, 2000);
 }
 
 function gameSetup() {

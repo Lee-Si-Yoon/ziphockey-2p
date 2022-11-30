@@ -7,6 +7,7 @@ module.exports = {
   devtool: "source-map",
   entry: {
     app: BASE_JS + "app.js",
+    dom: BASE_JS + "dom.js",
   },
   //mode: "development", //only on dev mode
   //watch: true, //only on dev mode
@@ -36,6 +37,18 @@ module.exports = {
         options: {
           name: "imgs/[name].[ext]",
         },
+      },
+      // 웹폰트 로더
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "fonts/[name].[hash:8].[ext]",
+            },
+          },
+        ],
       },
     ],
   },

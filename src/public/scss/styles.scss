@@ -2,11 +2,40 @@
 @import "./config/_reset.scss";
 @import "./config/_normalize.scss";
 
+@font-face {
+  font-family: "BEANPOLL-Bold";
+  src: url("../fonts/BEANPOLL-Bold.woff") format("woff");
+}
+@font-face {
+  font-family: "PPNeueBit-Bold";
+  src: url("../fonts/PPNeueBit-Bold.woff") format("woff");
+}
+
 :root {
-  --black: #1a1b1d;
+  --black: #231815;
   --sand: #f4ecdd;
   --orange: #ec7141;
   --green: #6f8b68;
+  --6sWidth: 414px;
+  --6sHeight: 736px;
+  --racketSize: 62px;
+  --ballSize: 40px;
+  --player1: #b22829;
+  --player2: #3596b1;
+  --player3: #7c985e;
+}
+
+.mt-20 {
+  margin-top: 20px;
+}
+.mb-20 {
+  margin-bottom: 20px;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+.mb-10 {
+  margin-bottom: 10px;
 }
 
 a {
@@ -28,134 +57,102 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 200vw;
-  height: 150vh;
+  width: calc(var(--6sWidth) * 2);
+  height: calc(var(--6sHeight) + (var(--6sHeight) * 0.5));
   position: relative;
+}
 
-  .playground {
-    width: 200vw;
-    height: 50vh;
-    background-color: var(--sand);
-    position: relative;
-    .racket {
-      position: absolute;
-      width: 44px;
-      height: 44px;
-      border-radius: 22px;
-      background-color: var(--orange);
-    }
-    .ball {
-      position: absolute;
-      width: 44px;
-      height: 44px;
-      border-radius: 22px;
-      background-color: var(--black);
-    }
-  }
-
-  .controller__P2 {
+.playground {
+  width: calc(var(--6sWidth) * 2);
+  height: calc(var(--6sHeight) * 0.5);
+  background-color: var(--sand);
+  position: relative;
+  .img__playground {
+    width: 100%;
+    height: 100%;
     position: absolute;
-    width: 100vw;
-    height: 50vh;
-    background-color: var(--black);
-    right: 0;
-    top: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    .status__container {
-      transform: rotate(-180deg);
-      width: 90%;
-      height: 5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .status__P2 {
-        display: flex;
-        font-size: 1.5rem;
-        color: var(--sand);
-        p:first-child {
-          margin-right: 2.5rem;
-        }
-      }
-    }
-    .scoring__container {
-      transform: rotate(-180deg);
-      width: 90%;
-      height: 5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .score__P2 {
-        display: flex;
-        font-size: 1.5rem;
-        color: var(--sand);
-        p:first-child {
-          margin-right: 2.5rem;
-        }
-      }
-    }
+    object-fit: cover;
   }
-  .controller__P1 {
-    flex-direction: column;
+  .racket {
     position: absolute;
-    width: 100vw;
-    height: 50vh;
-    background-color: var(--black);
-    left: 0;
-    bottom: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    .status__container {
-      width: 90%;
-      height: 5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .status__P1 {
-        display: flex;
-        font-size: 1.5rem;
-        color: var(--sand);
-        p:first-child {
-          margin-right: 2.5rem;
-        }
-      }
-    }
-    .scoring__container {
-      width: 90%;
-      height: 5rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      .score__P1 {
-        display: flex;
-        font-size: 1.5rem;
-        color: var(--sand);
-        p:first-child {
-          margin-right: 2.5rem;
-        }
-      }
-    }
+    width: var(--racketSize);
+    height: var(--racketSize);
+    // border-radius: calc(var(--racketSize) * 0.5);
+    // background-color: var(--orange);
+  }
+  .ball {
+    position: absolute;
+    width: var(--ballSize);
+    height: var(--ballSize);
+    // border-radius: calc(var(--ballSize) * 0.5);
+    // background-color: var(--black);
   }
 }
 
-.button__container__P1 {
-  width: 300px;
-  height: 300px;
-  border: 1px solid var(--sand);
+// CONTROLLER
+.controller {
+  position: absolute;
+  width: var(--6sWidth);
+  height: calc(var(--6sHeight) * 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--black);
+  .img__controller {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+  }
+  .img_screws {
+    width: 370px;
+    height: 330px;
+    position: absolute;
+  }
+}
+
+.controller__P2 {
+  right: 0;
+  top: 0;
+  .status__container {
+    transform: rotate(-180deg);
+  }
+  .scoring__container {
+    transform: rotate(-180deg);
+  }
+}
+.controller__P1 {
+  left: 0;
+  bottom: 0;
+}
+
+// BUTTON
+.button__container {
+  width: 350px;
+  height: 145px;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
   touch-action: none;
+  // border: 1px solid var(--sand);
   .button {
     position: absolute;
-    width: 100px;
-    height: 100px;
-    background-color: var(--orange);
+    width: 112px;
+    height: 68px;
+    background-color: var(--black);
   }
+  .img__button {
+    // position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+}
+
+.button__container__P1 {
   .up {
     top: 0;
   }
@@ -171,20 +168,6 @@ body {
 }
 
 .button__container__P2 {
-  width: 300px;
-  height: 300px;
-  border: 1px solid var(--sand);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  touch-action: none;
-  .button {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background-color: var(--orange);
-  }
   .up {
     top: 0;
   }
@@ -196,5 +179,92 @@ body {
   }
   .right {
     right: 0;
+  }
+}
+
+// SCORING
+.scoring__container {
+  position: relative;
+  width: 350px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  // border: 1px solid var(--orange);
+  h1 {
+    font-family: "PPNeueBit-Bold";
+    letter-spacing: 0.05em;
+    font-size: 48px;
+    padding: 0px;
+    margin: 0px;
+    line-height: 100%;
+    margin-bottom: 10px;
+    color: var(--black);
+  }
+  h2 {
+    font-family: "BEANPOLL-Bold";
+    position: absolute;
+    color: white;
+    letter-spacing: 0.05em;
+    font-size: 38px;
+    padding: 0px;
+    margin: 0px;
+    line-height: 100%;
+    bottom: 9px;
+  }
+  .player__scores__container {
+    display: flex;
+    width: 180px;
+    justify-content: space-between;
+    align-items: center;
+    .player__scores {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      .img__board__score {
+        width: 46px;
+        height: 60px;
+        object-fit: cover;
+      }
+    }
+  }
+  .timer__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .img__board__time {
+      width: 96px;
+      height: 60px;
+      object-fit: cover;
+    }
+  }
+}
+
+// STATUS
+.status__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+  width: 350px;
+  position: relative;
+  .status {
+    // justify-item: flex-start;
+    position: absolute;
+    p {
+      font-size: 1.2rem;
+      font-family: "PPNeueBit-Bold";
+      color: var(--black);
+    }
+  }
+  .lock__button {
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    position: absolute;
+    right: 8px;
+    font-size: 1.2rem;
+    font-family: "PPNeueBit-Bold";
   }
 }

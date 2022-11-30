@@ -1,6 +1,6 @@
 var socket = io();
 import { gsap } from "gsap";
-import "../scss/styles.scss";
+import { ball, racket_1P, racket_2P, racket_3P } from "./dom";
 
 let controls = { left: false, right: false, up: false, down: false };
 
@@ -129,20 +129,21 @@ socket.on("updateConnections", (player, clientNo, roomNo) => {
   let playersFound = {};
   for (let id in player) {
     if (clientRackets[id] === undefined) {
-      const racketDiv = document.createElement("div");
+      const racketDiv = document.createElement("img");
+      racketDiv.src = racket_1P;
       racketDiv.classList.add("racket");
       playground.appendChild(racketDiv);
       clientRackets[id] = new Racket(player[id].x, player[id].y, racketDiv, player[id].id);
       // TODO 플레이어 상태 타이밍 맞게 업로드
-      if (player[id].no === 1) {
-        const statusContainer = document.querySelector(".status__P1");
-        statusContainer.children[0].innerHTML = "room: " + roomNo;
-        statusContainer.children[1].innerHTML = "player: " + clientNo;
-      } else if (player[id].no === 2) {
-        const statusContainer = document.querySelector(".status__P2");
-        statusContainer.children[0].innerHTML = "room: " + roomNo;
-        statusContainer.children[1].innerHTML = "player: " + clientNo;
-      }
+      // if (player[id].no === 1) {
+      //   const statusContainer = document.querySelector(".status__P1");
+      //   statusContainer.children[0].innerHTML = "room: " + roomNo;
+      //   statusContainer.children[1].innerHTML = "player: " + clientNo;
+      // } else if (player[id].no === 2) {
+      //   const statusContainer = document.querySelector(".status__P2");
+      //   statusContainer.children[0].innerHTML = "room: " + roomNo;
+      //   statusContainer.children[1].innerHTML = "player: " + clientNo;
+      // }
       if (id === selfID) {
         const buttonContainer1 = document.querySelector(".button__container__P1");
         const buttonContainer2 = document.querySelector(".button__container__P2");
@@ -178,7 +179,8 @@ socket.on("updateHockeyBall", (hockeyBallReg) => {
   // console.log("getting ", hockeyBallReg);
   if (hockeyBall === undefined) {
     const playground = document.querySelector(".playground__container");
-    const ballDiv = document.createElement("div");
+    const ballDiv = document.createElement("img");
+    ballDiv.src = ball;
     ballDiv.classList.add("ball");
     playground.appendChild(ballDiv);
     hockeyBall = new Ball(hockeyBallReg.x, hockeyBallReg.y, ballDiv);
@@ -208,54 +210,8 @@ socket.on("updateScore", (scorerId) => {
 });
 
 socket.on("collision__P1", () => {
-  console.log("collision__P1");
+  // console.log("collision__P1");
 });
 socket.on("collision__P2", () => {
-  console.log("collision__P2");
+  // console.log("collision__P2");
 });
-
-/** DOM 기능들 */
-function lockButton() {
-  const lockBtnP1 = document.querySelector(".lock__button__P1");
-  const lockBtnP2 = document.querySelector(".lock__button__P2");
-  function onClickShowP1() {
-    body.style.overflow = "visible";
-    lockBtnP1.addEventListener("click", onClickHideP1);
-  }
-  function onClickShowP2() {
-    body.style.overflow = "visible";
-    lockBtnP2.addEventListener("click", onClickHideP2);
-  }
-  function onClickHideP1() {
-    body.style.overflow = "hidden";
-    lockBtnP1.removeEventListener("click", onClickHideP1);
-    lockBtnP1.addEventListener("click", onClickShowP1);
-  }
-  function onClickHideP2() {
-    body.style.overflow = "hidden";
-    lockBtnP2.removeEventListener("click", onClickHideP2);
-    lockBtnP2.addEventListener("click", onClickShowP2);
-  }
-  lockBtnP1.addEventListener("click", onClickHideP1);
-  lockBtnP2.addEventListener("click", onClickHideP2);
-}
-lockButton();
-
-/**
- * 페이지 숨기고 보여줄 때 사용
- * @param {HTMLElement} hide 숨길 것
- * @param {HTMLElement} show 보여줄 것
- */
-export function hideAndShow(hide, show) {
-  hide.classList.add("hidden");
-  show.classList.remove("hidden");
-}
-const body = document.querySelector("body");
-window.onload = () => {
-  body.classList.remove("loading");
-  gsap.from(body, {
-    opacity: 0,
-    duration: 1,
-    ease: "Power3.easeOut",
-  });
-};

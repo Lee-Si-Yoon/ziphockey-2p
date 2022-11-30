@@ -2,41 +2,83 @@ extends base
 
 block content
   div.play
-    section.controller__P2
-      div.status__container
-        div.status__P2
-          p room:
-          p player: 0
-        button.lock__button__P2 lock
-      div.button__container__P2
+    section.controller__P2.controller
+      img.img__controller
+      img.img_screws
+      div.status__container.mb-20
+        div#status__P2.status
+          p P2 / 01
+        button#lock__button__P2.lock__button lock
+      div.button__container__P2.button__container
         div.button.up
+          img.img__button__up.img__button
         div.button.left
+          img.img__button__left.img__button
         div.button.down
+          img.img__button__down.img__button
         div.button.right
-      div.scoring__container
-        div.score__P2
-          p score 1
-          p left time
+          img.img__button__right.img__button
+      div.scoring__container.mt-20
+        div.player__scores__container
+          div#player__scores__P1.player__scores
+            h1 P1
+            img.img__board__score
+            h2#scores__P1 0
+          div#player__scores__P2.player__scores
+            h1 P2
+            img.img__board__score
+            h2#scores__P2 0
+          div#player__scores__P3.player__scores
+            h1 P3
+            img.img__board__score
+            h2#scores__P3 0
+        div.timer__container
+          h1 TIME
+          img.img__board__time
+          h2#scores__time 000
+      
 
     section.playground
       div.playground__container
+        img.img__playground
         //- div.ball
 
-    section.controller__P1
-      div.scoring__container
-        div.score__P1
-          p score 1
-          p left time
-      div.button__container__P1
+    section.controller__P1.controller
+      img.img__controller
+      img.img_screws
+      div.scoring__container.mb-20
+        div.player__scores__container
+          div#player__scores__P1.player__scores
+            h1 P1
+            img.img__board__score
+            h2#scores__P1 0
+          div#player__scores__P2.player__scores
+            h1 P2
+            img.img__board__score
+            h2#scores__P2 0
+          div#player__scores__P3.player__scores
+            h1 P3
+            img.img__board__score
+            h2#scores__P3 0
+        div.timer__container
+          h1 TIME
+          img.img__board__time
+          h2#scores__time 000
+      div.button__container__P1.button__container
         div.button.up
+          img.img__button__up.img__button
         div.button.left
+          img.img__button__left.img__button
         div.button.down
+          img.img__button__down.img__button
         div.button.right
-      div.status__container
-        div.status__P1
-          p room:
-          p player: 0
-        button.lock__button__P1 lock
+          img.img__button__right.img__button
+      div.status__container.mt-20
+        div#status__P1.status
+          p P1 / 01
+        button#lock__button__P1.lock__button lock
+          
 
   script(src="/socket.io/socket.io.js") 
   script(src="/assets/js/app.js")
+  script(src="/assets/js/dom.js")
