@@ -5,7 +5,7 @@ block content
     section.controller__P2.controller
       img.img__controller
       img.img_screws
-      div.status__container.mb-20
+      div.status__container.mb-10
         div#status__P2.status
           p P2 / 01
         button#lock__button__P2.lock__button lock
@@ -18,52 +18,66 @@ block content
           img.img__button__down.img__button
         div.button.right
           img.img__button__right.img__button
-      div.scoring__container.mt-20
+      div.scoring__container.mt-10
         div.player__scores__container
           div#player__scores__P1.player__scores
-            h1 P1
+            h1#plate__P2__P1 P1
             img.img__board__score
-            h2#scores__P1 0
+            h2#scores__P2__P1 0
           div#player__scores__P2.player__scores
-            h1 P2
+            h1#plate__P2__P2 P2
             img.img__board__score
-            h2#scores__P2 0
-          div#player__scores__P3.player__scores
-            h1 P3
+            h2#scores__P2__P2 0
+          div#player__scores__P3.player__scores.hidden
+            h1#plate__P2__P3 P3
             img.img__board__score
-            h2#scores__P3 0
+            h2#scores__P2__P3 0
         div.timer__container
           h1 TIME
           img.img__board__time
-          h2#scores__time 000
+          h2#scores__time__P2 000
       
 
     section.playground
       div.playground__container
         img.img__playground
+        div.fanfare__container
+          div#fanfare_P1.fanfare
+            p score for player
+            h1 0:0
+          div#fanfare_P2.fanfare
+            p score for player
+            h1 0:0
+        div.winner__container
+          div#winner_P1.winner
+            p winner is
+            button#restart_Btn_P1.restart_Btn restart
+          div#winner_P2.winner
+            p winner is
+            button#restart_Btn_P2.restart_Btn restart
         //- div.ball
 
     section.controller__P1.controller
       img.img__controller
       img.img_screws
-      div.scoring__container.mb-20
+      div.scoring__container.mb-10
         div.player__scores__container
           div#player__scores__P1.player__scores
-            h1 P1
+            h1#plate__P1__P1 P1
             img.img__board__score
-            h2#scores__P1 0
+            h2#scores__P1__P1 0
           div#player__scores__P2.player__scores
-            h1 P2
+            h1#plate__P1__P2 P2
             img.img__board__score
-            h2#scores__P2 0
-          div#player__scores__P3.player__scores
-            h1 P3
+            h2#scores__P1__P2 0
+          div#player__scores__P3.player__scores.hidden
+            h1#plate__P1__P3 P3
             img.img__board__score
-            h2#scores__P3 0
+            h2#scores__P1__P3 0
         div.timer__container
           h1 TIME
           img.img__board__time
-          h2#scores__time 000
+          h2#scores__time__P1 000
       div.button__container__P1.button__container
         div.button.up
           img.img__button__up.img__button
@@ -73,7 +87,7 @@ block content
           img.img__button__down.img__button
         div.button.right
           img.img__button__right.img__button
-      div.status__container.mt-20
+      div.status__container.mt-10
         div#status__P1.status
           p P1 / 01
         button#lock__button__P1.lock__button lock

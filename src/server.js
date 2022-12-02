@@ -9,7 +9,7 @@ class Racket {
     this.velocity = { x: 0, y: 0 };
     this.mass = 3;
     this.speed = 7;
-    this.radius = 40;
+    this.radius = 30;
     // CONTROLS
     this.left = false;
     this.right = false;
@@ -17,60 +17,55 @@ class Racket {
     this.down = false;
     // set
     this.no;
+    this.roomNo;
     this.field = { width: 0, height: 0 };
     this.score = 0;
     BODIES.push(this);
   }
-  block__upAndDown() {
+  // block__area__byPosition() {
+  //   if (this.ny + this.radius > this.field.height) this.ny = this.field.height - this.radius;
+  //   if (this.ny - this.radius < 0) this.ny = this.radius;
+  //   if (this.nx - this.radius < 0) this.nx = this.radius;
+  //   if (this.nx + this.radius > this.field.width) this.nx = this.field.width - this.radius;
+  // }
+  block__area__byKey() {
     if (this.ny + this.radius > this.field.height) {
       this.down = false;
-      this.ny = this.field.height - this.radius;
-      this.velocity.y *= -1;
+      this.velocity.y *= -0.6;
     }
     if (this.ny - this.radius < 0) {
       this.up = false;
-      this.ny = this.radius;
-      this.velocity.y *= -1;
-    }
-  }
-  block__P1() {
-    if (this.nx + this.radius > this.field.width / 2) {
-      this.right = false;
-      this.nx = this.field.width - this.radius;
-      this.velocity.x *= -1;
+      this.velocity.y *= -0.6;
     }
     if (this.nx - this.radius < 0) {
       this.left = false;
-      this.nx = this.radius;
-      this.velocity.x *= -1;
+      this.velocity.x *= -0.6;
     }
-  }
-  block__P2() {
     if (this.nx + this.radius > this.field.width) {
       this.right = false;
-      this.nx = this.field.width - this.radius;
-      this.velocity.x *= -1;
+      this.velocity.x *= -0.6;
     }
-    if (this.nx - this.radius < this.field.width / 2) {
-      this.left = false;
-      this.nx = this.radius;
-      this.velocity.x *= -1;
-    }
+  }
+  block__P1() {
+    if (this.nx + this.radius > this.field.width / 2) this.right = false;
+  }
+  block__P2() {
+    if (this.nx - this.radius < this.field.width / 2) this.left = false;
   }
   update() {
     this.velocity = { x: 0, y: 0 };
 
-    if (this.left) this.velocity.x -= this.speed;
-    if (this.right) this.velocity.x += this.speed;
-    if (this.up) this.velocity.y -= this.speed;
-    if (this.down) this.velocity.y += this.speed;
-
-    this.block__upAndDown();
+    this.block__area__byKey();
     if (+this.no === 1) {
       this.block__P1();
     } else if (+this.no === 2) {
       this.block__P2();
     }
+
+    if (this.left) this.velocity.x -= this.speed;
+    if (this.right) this.velocity.x += this.speed;
+    if (this.up) this.velocity.y -= this.speed;
+    if (this.down) this.velocity.y += this.speed;
 
     this.nx = this.x + this.velocity.x;
     this.ny = this.y + this.velocity.y;
@@ -89,22 +84,38 @@ class Ball {
     this.velocity = { x: 0, y: 0 };
     this.mass = 1;
     this.corFactor = 1.2;
-    this.radius = 40;
+    this.radius = 18;
     // GET
     this.player1 = player1;
     this.player2 = player2;
+    this.roomNo;
     this.field = { width: 0, height: 0 };
+    this.collisionActive = false;
     BODIES.push(this);
+  }
+  remove() {
+    if (BODIES.indexOf(this) !== -1) {
+      BODIES.splice(BODIES.indexOf(this), 1);
+    }
+  }
+  reset() {
+    this.velocity = { x: 0, y: 0 };
+    this.collisionActive = false;
+    setTimeout(() => {
+      this.collisionActive = true;
+    }, 2000);
   }
   // 라켓과 공이 충돌했는지 판별하는 함수
   collision(racket) {
-    // 중심점 좌표 사이의 거리가 두 반지름의 합보다 작으면 충돌
-    let distanceUnits = Math.sqrt(
-      Math.pow(Math.abs(this.x - racket.x), 2) + Math.pow(Math.abs(this.y - racket.y), 2)
-    );
-    let sumRadius = this.radius + racket.radius;
+    if (this.collisionActive) {
+      // 중심점 좌표 사이의 거리가 두 반지름의 합보다 작으면 충돌
+      let distanceUnits = Math.sqrt(
+        Math.pow(Math.abs(this.x - racket.x), 2) + Math.pow(Math.abs(this.y - racket.y), 2)
+      );
+      let sumRadius = this.radius + racket.radius;
 
-    return distanceUnits < sumRadius;
+      return distanceUnits < sumRadius;
+    }
   }
   getVelocity(racket) {
     return {
@@ -122,19 +133,19 @@ class Ball {
     // 벽 확인
     if (this.nx + this.radius > this.field.width) {
       this.nx = this.field.width - this.radius;
-      this.velocity.x *= -1;
+      this.velocity.x *= -0.6;
     }
     if (this.nx - this.radius < 0) {
       this.nx = this.radius;
-      this.velocity.x *= -1;
+      this.velocity.x *= -0.6;
     }
     if (this.ny + this.radius > this.field.height) {
       this.ny = this.field.height - this.radius;
-      this.velocity.y *= -1;
+      this.velocity.y *= -0.6;
     }
     if (this.ny - this.radius < 0) {
       this.ny = this.radius;
-      this.velocity.y *= -1;
+      this.velocity.y *= -0.6;
     }
   }
   update() {
@@ -142,10 +153,10 @@ class Ball {
     if (this.player1 !== undefined && this.player2 !== undefined) {
       if (this.collision(this.player1)) {
         this.velocity = this.getVelocity(this.player1);
-        io.emit("collision__P1");
+        // io.to(this.roomNo).emit("collision__P1");
       } else if (this.collision(this.player2)) {
         this.velocity = this.getVelocity(this.player2);
-        io.emit("collision__P2");
+        // io.to(this.roomNo).emit("collision__P2");
       }
     }
 
@@ -160,55 +171,55 @@ class Ball {
     if (this.player1 !== undefined && this.player2 !== undefined) {
       if (this.collision(this.player1)) {
         this.velocity = {
-          x: this.velocity.x * -1,
-          y: this.velocity.y * -1,
+          x: this.velocity.x * -0.6,
+          y: this.velocity.y * -0.6,
         };
-        // 라켓이 움직일 수 없으면 공을 움직임
-        if (
-          this.player1.y - this.velocity.y > this.field.height - this.player1.radius ||
-          this.player1.y - this.velocity.y < this.field.height / 2 + this.player1.radius
-        ) {
-          // while (this.collision(player)) {
-          //   this.nx = this.x + this.velocity.x;
-          //   this.ny = this.y + this.velocity.y;
-          //   this.x = this.nx;
-          //   this.y = this.ny;
-          // }
-          // 공이 움직일 수 없으면 라켓을 움직임
-        } else {
-          while (this.collision(this.player1)) {
-            this.player1.nx = this.player1.x - this.velocity.x;
-            this.player1.ny = this.player1.y - this.velocity.y;
-            this.player1.x = this.player1.nx;
-            this.player1.y = this.player1.ny;
-          }
-        }
+        //   // 라켓이 움직일 수 없으면 공을 움직임
+        //   if (
+        //     this.player1.y - this.velocity.y > this.field.height - this.player1.radius ||
+        //     this.player1.y - this.velocity.y < this.field.height / 2 + this.player1.radius
+        //   ) {
+        //     while (this.collision(this.player1)) {
+        //       this.nx = this.x + this.velocity.x;
+        //       this.ny = this.y + this.velocity.y;
+        //       // this.x = this.nx;
+        //       // this.y = this.ny;
+        //     }
+        //     // 공이 움직일 수 없으면 라켓을 움직임
+        //   } else {
+        //     while (this.collision(this.player1)) {
+        //       this.player1.nx = this.player1.x - this.velocity.x;
+        //       this.player1.ny = this.player1.y - this.velocity.y;
+        //       this.player1.x = this.player1.nx;
+        //       this.player1.y = this.player1.ny;
+        //     }
+        //   }
       }
       if (this.collision(this.player2)) {
         this.velocity = {
-          x: this.velocity.x * -1,
-          y: this.velocity.y * -1,
+          x: this.velocity.x * -0.6,
+          y: this.velocity.y * -0.6,
         };
-        // 라켓이 움직일 수 없으면 공을 움직임
-        if (
-          this.player2.y - this.velocity.y > this.field.height - this.player2.radius ||
-          this.player2.y - this.velocity.y < this.field.height / 2 + this.player2.radius
-        ) {
-          // while (this.collision(player)) {
-          //   this.nx = this.x + this.velocity.x;
-          //   this.ny = this.y + this.velocity.y;
-          //   this.x = this.nx;
-          //   this.y = this.ny;
-          // }
-          // 공이 움직일 수 없으면 라켓을 움직임
-        } else {
-          while (this.collision(this.player2)) {
-            this.player2.nx = this.player2.x - this.velocity.x;
-            this.player2.ny = this.player2.y - this.velocity.y;
-            this.player2.x = this.player2.nx;
-            this.player2.y = this.player2.ny;
-          }
-        }
+        //   // 라켓이 움직일 수 없으면 공을 움직임
+        //   if (
+        //     this.player2.y - this.velocity.y > this.field.height - this.player2.radius ||
+        //     this.player2.y - this.velocity.y < this.field.height / 2 + this.player2.radius
+        //   ) {
+        //     while (this.collision(this.player2)) {
+        //       this.nx = this.x + this.velocity.x;
+        //       this.ny = this.y + this.velocity.y;
+        //       // this.x = this.nx;
+        //       // this.y = this.ny;
+        //     }
+        //     // 공이 움직일 수 없으면 라켓을 움직임
+        //   } else {
+        //     while (this.collision(this.player2)) {
+        //       this.player2.nx = this.player2.x - this.velocity.x;
+        //       this.player2.ny = this.player2.y - this.velocity.y;
+        //       // this.player2.x = this.player2.nx;
+        //       // this.player2.y = this.player2.ny;
+        //     }
+        //   }
       }
     }
   }
@@ -236,80 +247,125 @@ app.get("/", staticPage("home", "welcome"));
 // SOCKET
 // https://github.com/danielszabo88/CapsuleSoccer/blob/master/05%20-%20Adding%20socket.io%20Rooms/server.js
 // line 850
-let serverRackets = []; // 서버 상 라켓
+let serverRackets = {}; // 서버 상 라켓
 let playerReg = {}; // 라켓의 위치
+let hockeyBall = {};
+let hockeyBallReg = {};
 let clientNo = 0;
 let roomNo;
-let hockeyBall;
-let hockeyBallReg = {};
+let timer = {};
 
 io.on("connection", connected);
 setInterval(serverLoop, 1000 / 60);
 
+class Timer {
+  constructor(roomNo) {
+    this.time = 20;
+    this.roomNo = roomNo;
+    this.active = false;
+  }
+  runTimer() {
+    if (this.active && this.time > 0) {
+      this.time -= 1;
+    }
+  }
+}
+
 function connected(socket) {
   clientNo++;
   roomNo = Math.round(clientNo / 2);
-  // socket.join(roomNo);
-  // console.log(`New client no.: ${clientNo}, room no.: ${roomNo}`);
-  console.log("New client connected, with id: " + socket.id);
+  socket.join(roomNo);
+  console.log(`New client no.: ${clientNo}, room no.: ${roomNo}`);
+  // console.log("New client connected, with id: " + socket.id);
   if (clientNo % 2 === 1) {
     // 플레이어 1 생성
-    serverRackets[socket.id] = new Racket(200, 200);
-    // serverRackets[socket.id].layer = roomNo;
+    serverRackets[socket.id] = new Racket(207, 156);
     serverRackets[socket.id].no = 1;
-    playerReg[socket.id] = { id: socket.id, x: 150, y: 50, no: 1 };
-    hockeyBall = new Ball(400, 200);
-    io.sockets.emit("updateHockeyBall", { x: hockeyBall.x, y: hockeyBall.y });
+    serverRackets[socket.id].roomNo = roomNo;
+    playerReg[socket.id] = { id: socket.id, x: 207, y: 156, roomNo: roomNo, no: 1 };
   } else if (clientNo % 2 === 0) {
-    serverRackets[socket.id] = new Racket(600, 200);
-    // serverRackets[socket.id].layer = roomNo;
+    serverRackets[socket.id] = new Racket(621, 156);
     serverRackets[socket.id].no = 2;
-    playerReg[socket.id] = { id: socket.id, x: 200, y: 50, no: 2 };
+    serverRackets[socket.id].roomNo = roomNo;
+    playerReg[socket.id] = { id: socket.id, x: 621, y: 156, roomNo: roomNo, no: 2 };
   }
 
   socket.on("NewPlayground", (dimension) => {
-    // console.log(dimension.width, dimension.height);
     serverRackets[socket.id].field = dimension;
-    hockeyBall.field = dimension;
-    if (clientNo % 2 === 1) {
-      serverRackets[socket.id].x = dimension.width * 0.25;
-      serverRackets[socket.id].y = dimension.height * 0.5;
-      // hockeyBallReg.x = dimension.width * 0.5;
-      // hockeyBallReg.y = dimension.height * 0.5;
-      hockeyBall.player1 = serverRackets[socket.id];
-    } else if (clientNo % 2 === 0) {
-      serverRackets[socket.id].x = dimension.width * 0.75;
-      serverRackets[socket.id].y = dimension.height / 2;
-      hockeyBall.x = dimension.width * 0.3;
-      hockeyBall.y = dimension.height * 0.5;
-      hockeyBall.player2 = serverRackets[socket.id];
+    io.to(serverRackets[socket.id].roomNo).emit("updateUI", playerReg[socket.id]);
+    if (clientNo % 2 === 0) {
+      // create new ball
+      hockeyBall[roomNo] = new Ball(314, 156);
+      hockeyBall[roomNo].roomNo = roomNo;
+      hockeyBall[roomNo].field = dimension;
+      hockeyBall[roomNo].collisionActive = true;
+      hockeyBallReg[roomNo] = { x: 314, y: 156, roomNo: roomNo };
+      io.emit("updateHockeyBall", hockeyBallReg[roomNo]);
+      for (let id in playerReg) {
+        if (playerReg[id].id !== socket.id) {
+          hockeyBall[roomNo].player1 = serverRackets[playerReg[id].id];
+        } else {
+          hockeyBall[roomNo].player2 = serverRackets[playerReg[id].id];
+        }
+      }
+      // Timer
+      timer[roomNo] = new Timer(roomNo);
+      timer[roomNo].active = true;
     }
-    // console.log(hockeyBall);
   });
+  for (let id in serverRackets) {
+    // console.log(playerReg[id]);
+    io.to(serverRackets[id].roomNo).emit("updateConnections", playerReg);
+    io.to(serverRackets[id].roomNo).emit("updateUI", playerReg);
+  }
 
-  io.sockets.emit("updateConnections", playerReg, clientNo, roomNo);
+  // io.sockets.emit("updateConnections", playerReg);
 
   socket.on("disconnect", function () {
-    // console.log(`on disconnection room: ${serverRackets[socket.id].layer}`);
+    if (hockeyBall[serverRackets[socket.id].roomNo]) {
+      // console.log(hockeyBall[roomNo]);
+      delete hockeyBall[serverRackets[socket.id].roomNo];
+    }
+    io.to(serverRackets[socket.id].roomNo).emit("deletePlayer", playerReg[socket.id]);
     delete serverRackets[socket.id];
     delete playerReg[socket.id];
-    if (clientNo % 2 === 0) {
-      hockeyBall = {};
+    if (timer[roomNo]) {
+      timer[roomNo].active = false;
+      delete timer[roomNo];
     }
+    console.log(`Number of balls: ${Object.keys(hockeyBall).length}`);
+    console.log(`Number of Bodies: ${BODIES.length}`);
+    console.log(`Joined players ever: ${clientNo}`);
     console.log("From disconnect | Current number of players: " + Object.keys(playerReg).length);
-    // socket.emit("deletePlayer", playerReg[socket.id]);
-    io.sockets.emit("updateConnections", playerReg);
+    io.emit("updateConnections", playerReg);
   });
 
   socket.on("userCommands", (data) => {
-    // console.log(data);
-    serverRackets[socket.id].left = data.left;
-    serverRackets[socket.id].up = data.up;
-    serverRackets[socket.id].right = data.right;
-    serverRackets[socket.id].down = data.down;
-    // TODO 컨트롤 계속 true로 두지 않기
+    if (timer[roomNo] !== undefined && timer[roomNo].active) {
+      serverRackets[socket.id].left = data.left;
+      serverRackets[socket.id].up = data.up;
+      serverRackets[socket.id].right = data.right;
+      serverRackets[socket.id].down = data.down;
+    }
+  });
+
+  socket.on("restartGame", (roomNo) => {
+    timer[roomNo].active = true;
+    io.to(roomNo).emit("restart");
   });
 }
+
+setInterval(() => {
+  for (let room = 1; room <= roomNo; room++) {
+    if (timer[room] === undefined) {
+    } else {
+      if (timer[room].active) {
+        timer[room].runTimer();
+        io.to(room).emit("timer", timer[room].time);
+      }
+    }
+  }
+}, 1000);
 
 function userInteraction() {
   BODIES.forEach((b) => {
@@ -319,89 +375,144 @@ function userInteraction() {
 
 function serverLoop() {
   userInteraction();
+  // RACKET POSITION
   for (let id in serverRackets) {
-    // console.log(serverRackets[id].x, serverRackets[id].y);
+    if (serverRackets[id].x !== playerReg[id].x || serverRackets[id].y !== playerReg[id].y) {
+      // console.log(serverRackets[id].x, serverRackets[id].y);
+      io.to(serverRackets[id].roomNo).emit("positionUpdate", {
+        id: id,
+        x: serverRackets[id].x,
+        y: serverRackets[id].y,
+      });
+    }
     playerReg[id].x = serverRackets[id].x;
     playerReg[id].y = serverRackets[id].y;
   }
-  if (hockeyBall === undefined) {
-    // console.log("waiting for P2");
-    return;
-  } else {
-    if (hockeyBall.player1 !== undefined && hockeyBall.player2 !== undefined) {
-      hockeyBallReg = { x: hockeyBall.x, y: hockeyBall.y };
-      gameLogic();
+  // BALL POSITION
+  for (let room = 1; room <= roomNo; room++) {
+    if (hockeyBall[room] === undefined) {
+      // console.log("waiting for P2");
+    } else {
+      if (hockeyBall[room].player1 !== undefined && hockeyBall[room].player2 !== undefined) {
+        if (
+          hockeyBall[room].x !== hockeyBallReg[room].x ||
+          hockeyBall[room].y !== hockeyBallReg[room].y
+        ) {
+          // console.log(hockeyBall[room].x);
+          io.to(room).emit("updateHockeyBall", {
+            x: hockeyBall[room].x,
+            y: hockeyBall[room].y,
+            roomNo: room,
+          });
+        }
+        hockeyBallReg[room].x = hockeyBall[room].x;
+        hockeyBallReg[room].y = hockeyBall[room].y;
+      }
+      gameLogic(room);
     }
   }
-  io.emit("positionUpdate", playerReg);
-  io.emit("updateHockeyBall", hockeyBallReg);
 }
 
-function gameLogic() {
-  if (
-    hockeyBall.x <= hockeyBall.radius ||
-    hockeyBall.x >= hockeyBall.field.width - hockeyBall.radius
-  ) {
-    scoring();
-  }
-  for (let id in serverRackets) {
-    if (serverRackets[id].score === 3) {
-      // gameOver();
-    }
-  }
-}
-
-function scoring() {
-  let scorerId;
-
-  if (hockeyBall.x <= hockeyBall.radius) {
-    for (let id in serverRackets) {
-      if (serverRackets[id].no === 2) {
-        serverRackets[id].score++;
-        scorerId = id;
-        console.log("score for player 2!");
+function gameLogic(room) {
+  if (timer[room].time > 0) {
+    if (hockeyBall[room].y > 90 && hockeyBall[room].y < hockeyBall[room].field.height - 90) {
+      if (
+        hockeyBall[room].x <= hockeyBall[room].radius ||
+        hockeyBall[room].x >= hockeyBall[room].field.width - hockeyBall[room].radius
+      ) {
+        scoring(room);
       }
     }
-  }
-  if (hockeyBall.x >= hockeyBall.field.width - hockeyBall.radius) {
     for (let id in serverRackets) {
-      if (serverRackets[id].no === 1) {
-        serverRackets[id].score++;
-        scorerId = id;
-        console.log("score for player 1!");
+      if (serverRackets[id].score === 3 && serverRackets[id].roomNo === roomNo) {
+        gameOver();
+      }
+    }
+  } else {
+    gameOver();
+    // for (let id in serverRackets) {
+    // }
+  }
+}
+
+function scoring(room) {
+  let scorerId;
+  if (hockeyBall[room].y > 90 && hockeyBall[room].y < hockeyBall[room].field.height - 90) {
+    if (hockeyBall[room].x >= hockeyBall[room].field.width - hockeyBall[room].radius) {
+      for (let id in serverRackets) {
+        if (serverRackets[id].no === 1 && serverRackets[id].roomNo === roomNo) {
+          serverRackets[id].score++;
+          scorerId = id;
+          console.log("score for player 1!");
+          hockeyBall[room].reset();
+          io.to(room).emit("updateHockeyBall", {
+            x: 314,
+            y: 156,
+            roomNo: room,
+          });
+          hockeyBall[room].x = 314;
+          hockeyBall[room].y = 156;
+        }
+      }
+    }
+    if (hockeyBall[room].x <= hockeyBall[room].radius) {
+      for (let id in serverRackets) {
+        if (serverRackets[id].no === 2 && serverRackets[id].roomNo === roomNo) {
+          serverRackets[id].score++;
+          scorerId = id;
+          console.log("score for player 2!");
+          hockeyBall[room].reset();
+          io.to(room).emit("updateHockeyBall", {
+            x: 514,
+            y: 156,
+            roomNo: room,
+          });
+          hockeyBall[room].x = 514;
+          hockeyBall[room].y = 156;
+        }
       }
     }
   }
   gameSetup();
   // TODO 여기에 딜레이 줘서 바로 시작하지 못하게
   // TODO 잠시 스탑 이벤트 만들기 3,2,1....
-  io.emit("updateScore", scorerId);
+  io.to(roomNo).emit("updateScore", scorerId);
+}
+
+function gameSetup() {
+  for (let id in serverRackets) {
+    if (serverRackets[id].no === 1 && serverRackets[id].roomNo === roomNo) {
+      io.to(serverRackets[id].roomNo).emit("positionUpdate", {
+        id: id,
+        x: 157,
+        y: 156,
+      });
+      serverRackets[id].x = 157;
+      serverRackets[id].y = 156;
+      serverRackets[id].velocity = { x: 0, y: 0 };
+    }
+    if (serverRackets[id].no === 2 && serverRackets[id].roomNo === roomNo) {
+      io.to(serverRackets[id].roomNo).emit("positionUpdate", {
+        id: id,
+        x: 671,
+        y: 156,
+      });
+      serverRackets[id].x = 671;
+      serverRackets[id].y = 156;
+      serverRackets[id].velocity = { x: 0, y: 0 };
+    }
+  }
 }
 
 function gameOver() {
   console.log("Game Over");
   gameSetup();
   io.emit("updateScore", null);
-  setTimeout(() => {
-    for (let id in serverRackets) {
-      serverRackets[id].score = 0;
-    }
-  }, 2000);
-}
-
-function gameSetup() {
   for (let id in serverRackets) {
-    if (serverRackets[id].no === 1) {
-      serverRackets[id].x = serverRackets[id].field.width * 0.25;
-      serverRackets[id].y = serverRackets[id].field.height * 0.5;
-    }
-    if (serverRackets[id].no === 2) {
-      serverRackets[id].x = serverRackets[id].field.width * 0.75;
-      serverRackets[id].y = serverRackets[id].field.height * 0.5;
-    }
+    serverRackets[id].score = 0;
   }
-  hockeyBall.x = hockeyBall.field.width * 0.3;
-  hockeyBall.y = hockeyBall.field.height * 0.5;
+  timer[roomNo].time = 20;
+  timer[roomNo].active = false;
 }
 
 export default httpServer;

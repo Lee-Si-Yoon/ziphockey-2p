@@ -2,27 +2,20 @@
 @import "./config/_reset.scss";
 @import "./config/_normalize.scss";
 
-@font-face {
-  font-family: "BEANPOLL-Bold";
-  src: url("../fonts/BEANPOLL-Bold.woff") format("woff");
-}
-@font-face {
-  font-family: "PPNeueBit-Bold";
-  src: url("../fonts/PPNeueBit-Bold.woff") format("woff");
-}
-
 :root {
   --black: #231815;
   --sand: #f4ecdd;
   --orange: #ec7141;
   --green: #6f8b68;
   --6sWidth: 414px;
-  --6sHeight: 736px;
+  --6sHeight: 624px;
   --racketSize: 62px;
   --ballSize: 40px;
   --player1: #b22829;
   --player2: #3596b1;
   --player3: #7c985e;
+  --racketTop: 0px;
+  --racketLeft: 0px;
 }
 
 .mt-20 {
@@ -37,6 +30,9 @@
 .mb-10 {
   margin-bottom: 10px;
 }
+.hidden {
+  display: none !important;
+}
 
 a {
   color: inherit;
@@ -49,6 +45,10 @@ body {
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  -ms-touch-action: none;
+  position: relative;
   // overflow: hidden;
 }
 
@@ -67,6 +67,7 @@ body {
   height: calc(var(--6sHeight) * 0.5);
   background-color: var(--sand);
   position: relative;
+  transform: translate3d(0, 0, 0);
   .img__playground {
     width: 100%;
     height: 100%;
@@ -77,6 +78,8 @@ body {
     position: absolute;
     width: var(--racketSize);
     height: var(--racketSize);
+    // top: var(--racketTop);
+    // left: var(--racketLeft);
     // border-radius: calc(var(--racketSize) * 0.5);
     // background-color: var(--orange);
   }
@@ -99,6 +102,7 @@ body {
   justify-content: center;
   align-items: center;
   background-color: var(--black);
+  // border: 1px solid var(--orange);
   .img__controller {
     width: 100%;
     height: 100%;
@@ -107,7 +111,7 @@ body {
   }
   .img_screws {
     width: 370px;
-    height: 330px;
+    height: 276px;
     position: absolute;
   }
 }
@@ -135,6 +139,8 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
+  // touch-action: none;
+  cursor: pointer;
   touch-action: none;
   // border: 1px solid var(--sand);
   .button {
@@ -142,12 +148,14 @@ body {
     width: 112px;
     height: 68px;
     background-color: var(--black);
+    touch-action: none;
   }
   .img__button {
     // position: absolute;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    touch-action: none;
     pointer-events: none;
   }
 }
@@ -197,7 +205,7 @@ body {
     padding: 0px;
     margin: 0px;
     line-height: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     color: var(--black);
   }
   h2 {
@@ -214,9 +222,10 @@ body {
   .player__scores__container {
     display: flex;
     width: 180px;
-    justify-content: space-between;
+    // justify-content: space-between;
     align-items: center;
     .player__scores {
+      margin-right: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -266,5 +275,85 @@ body {
     right: 8px;
     font-size: 1.2rem;
     font-family: "PPNeueBit-Bold";
+  }
+}
+
+.fanfare__container {
+  position: absolute;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  .fanfare {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    p {
+      color: white;
+      font-family: "PPNeueBit-Bold";
+      letter-spacing: 0.05em;
+      font-size: 36px;
+      display: block;
+      line-height: 0%;
+    }
+    h1 {
+      color: white;
+      font-family: "PPNeueBit-Bold";
+      letter-spacing: 0.05em;
+      line-height: 0%;
+      font-size: 80px;
+    }
+  }
+  #fanfare_P2 {
+    transform: rotate(-180deg);
+  }
+}
+
+.winner__container {
+  position: absolute;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  .winner {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    p {
+      color: white;
+      font-family: "PPNeueBit-Bold";
+      letter-spacing: 0.05em;
+      font-size: 64px;
+      display: block;
+      line-height: 100%;
+    }
+    .restart_Btn {
+      // display: block;
+      background: none;
+      border: 2px solid white;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-family: "PPNeueBit-Bold";
+      color: white;
+      font-size: 32px;
+      line-height: 100%;
+      margin-top: 15px;
+      vertical-align: top;
+    }
+  }
+  #winner_P2 {
+    transform: rotate(-180deg);
   }
 }

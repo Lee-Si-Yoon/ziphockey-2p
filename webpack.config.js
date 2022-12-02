@@ -14,7 +14,7 @@ module.exports = {
   output: {
     filename: "js/[name].js",
     path: path.resolve(__dirname, "assets"),
-    // clean: true,
+    clean: true,
   },
   module: {
     rules: [
@@ -41,14 +41,10 @@ module.exports = {
       // 웹폰트 로더
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              name: "fonts/[name].[hash:8].[ext]",
-            },
-          },
-        ],
+        loader: "file-loader",
+        options: {
+          name: "fonts/[name].[ext]",
+        },
       },
     ],
   },
