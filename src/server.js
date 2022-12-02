@@ -511,7 +511,7 @@ function gameOver() {
   for (let id in serverRackets) {
     serverRackets[id].score = 0;
   }
-  timer[roomNo].time = 20;
+  timer[roomNo].time = 120;
   timer[roomNo].active = false;
 }
 
