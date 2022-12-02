@@ -8,7 +8,7 @@ class Racket {
     this.ny = y;
     this.velocity = { x: 0, y: 0 };
     this.mass = 3;
-    this.speed = 7;
+    this.speed = 4;
     this.radius = 30;
     // CONTROLS
     this.left = false;
@@ -260,7 +260,7 @@ setInterval(serverLoop, 1000 / 60);
 
 class Timer {
   constructor(roomNo) {
-    this.time = 20;
+    this.time = 120;
     this.roomNo = roomNo;
     this.active = false;
   }
