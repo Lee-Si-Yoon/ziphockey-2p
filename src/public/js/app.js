@@ -154,7 +154,7 @@ socket.on("connect", () => {
   socket.emit("NewPlayground", { width, height });
   setInterval(() => {
     socket.emit("ping");
-  }, 1000);
+  }, 15000);
 });
 
 socket.on("updateConnections", (player) => {
