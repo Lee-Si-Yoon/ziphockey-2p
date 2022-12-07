@@ -1,4 +1,4 @@
-var socket = io();
+let socket = io();
 import { gsap } from "gsap";
 import { ball, racket_1P, racket_2P, racket_3P } from "./dom";
 
@@ -152,6 +152,9 @@ socket.on("connect", () => {
   const width = playground.offsetWidth;
   const height = playground.offsetHeight;
   socket.emit("NewPlayground", { width, height });
+  setInterval(() => {
+    socket.emit("ping");
+  }, 1000);
 });
 
 socket.on("updateConnections", (player) => {

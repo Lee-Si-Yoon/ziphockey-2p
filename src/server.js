@@ -353,6 +353,10 @@ function connected(socket) {
     timer[roomNo].active = true;
     io.to(roomNo).emit("restart");
   });
+
+  socket.on("ping", () => {
+    // console.log("pong" + Object.keys(serverRackets).length);
+  });
 }
 
 setInterval(() => {
