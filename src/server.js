@@ -350,8 +350,10 @@ function connected(socket) {
   });
 
   socket.on("restartGame", (roomNo) => {
-    timer[roomNo].active = true;
-    io.to(roomNo).emit("restart");
+    if (timer[roomNo] !== undefined) {
+      timer[roomNo].active = true;
+      io.to(roomNo).emit("restart");
+    }
   });
 
   socket.on("ping", () => {
@@ -515,8 +517,10 @@ function gameOver() {
   for (let id in serverRackets) {
     serverRackets[id].score = 0;
   }
-  timer[roomNo].time = 120;
-  timer[roomNo].active = false;
+  if (timer[roomNo] !== undefined) {
+    timer[roomNo].time = 120;
+    timer[roomNo].active = false;
+  }
 }
 
 export default httpServer;
