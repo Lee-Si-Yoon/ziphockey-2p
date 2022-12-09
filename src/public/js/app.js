@@ -165,18 +165,29 @@ socket.on("updateConnections", (player) => {
       const racketDiv = document.createElement("img");
       racketDiv.classList.add("racket");
       playground.appendChild(racketDiv);
-      clientRackets[id] = new Racket(player[id].x, player[id].y, racketDiv, player[id].id);
+      clientRackets[id] = new Racket(
+        player[id].x,
+        player[id].y,
+        racketDiv,
+        player[id].id
+      );
       clientRackets[id].no = player[id].no;
       console.log(`Created new clientRacket: ${clientRackets[id].id}`);
-      console.log(`new clientRacket position: x:${player[id].x}, y:${player[id].y}`);
+      console.log(
+        `new clientRacket position: x:${player[id].x}, y:${player[id].y}`
+      );
       clientRackets[id].draw(player[id].x, player[id].y);
       if (id === selfID) {
         if (player[selfID].no === 1) {
-          const buttonContainer1 = document.querySelector(".button__container__P1");
+          const buttonContainer1 = document.querySelector(
+            ".button__container__P1"
+          );
           const control1 = new Controller(buttonContainer1, controls);
           racketDiv.src = racket_1P;
         } else if (player[selfID].no === 2) {
-          const buttonContainer2 = document.querySelector(".button__container__P2");
+          const buttonContainer2 = document.querySelector(
+            ".button__container__P2"
+          );
           const control2 = new Controller(buttonContainer2, controls);
           racketDiv.src = racket_2P;
         }
@@ -202,14 +213,22 @@ socket.on("positionUpdate", (playerReg) => {
 });
 
 socket.on("deletePlayer", (playerReg) => {
-  console.log(`before deleting player, number of players: ${Object.keys(clientRackets).length}`);
+  console.log(
+    `before deleting player, number of players: ${
+      Object.keys(clientRackets).length
+    }`
+  );
   if (clientRackets[playerReg.id]) {
     clientRackets[playerReg.id].elem.remove();
     delete clientRackets[playerReg.id];
-    console.log(`deleted player, left players: ${Object.keys(clientRackets).length}`);
+    console.log(
+      `deleted player, left players: ${Object.keys(clientRackets).length}`
+    );
     hockeyBall.elem.remove();
     hockeyBall = undefined;
-    console.log(`deleted hockeyBall, left hockeyBall: ${Object.keys(hockeyBall).length}`);
+    console.log(
+      `deleted hockeyBall, left hockeyBall: ${Object.keys(hockeyBall).length}`
+    );
   }
 });
 
@@ -219,9 +238,16 @@ socket.on("updateHockeyBall", (hockeyBallReg) => {
     const ballDiv = document.createElement("img");
     ballDiv.classList.add("ball");
     playground.appendChild(ballDiv);
-    hockeyBall = new Ball(hockeyBallReg.x, hockeyBallReg.y, ballDiv, hockeyBallReg.roomNo);
+    hockeyBall = new Ball(
+      hockeyBallReg.x,
+      hockeyBallReg.y,
+      ballDiv,
+      hockeyBallReg.roomNo
+    );
     ballDiv.src = ball;
-    console.log(`Creating hockeyBall from updateHockeyBall: ${JSON.stringify(hockeyBall)}`);
+    console.log(
+      `Creating hockeyBall from updateHockeyBall: ${JSON.stringify(hockeyBall)}`
+    );
     hockeyBall.draw(hockeyBallReg.x, hockeyBallReg.y);
   } else {
     hockeyBall.draw(hockeyBallReg.x, hockeyBallReg.y);
@@ -279,8 +305,14 @@ socket.on("updateScore", (scorerId) => {
       ease: "Sine.out",
     });
     if (highestValue > 0) {
-      winner_P1.children[0].innerHTML = `winner is ${getKeyByValue(scores, highestValue)}!`;
-      winner_P2.children[0].innerHTML = `winner is ${getKeyByValue(scores, highestValue)}!`;
+      winner_P1.children[0].innerHTML = `winner is ${getKeyByValue(
+        scores,
+        highestValue
+      )}!`;
+      winner_P2.children[0].innerHTML = `winner is ${getKeyByValue(
+        scores,
+        highestValue
+      )}!`;
     } else if (+highestValue === 0) {
       winner_P1.children[0].innerHTML = `draw...`;
       winner_P2.children[0].innerHTML = `draw...`;
@@ -290,6 +322,9 @@ socket.on("updateScore", (scorerId) => {
     P1__P2.innerHTML = scores.P2;
     P2__P1.innerHTML = scores.P1;
     P2__P2.innerHTML = scores.P2;
+    setTimeout(() => {
+      socket.emit("restartGame", hockeyBall.roomNo);
+    }, 2000);
   } else {
     for (let id in clientRackets) {
       if (id === scorerId) {
@@ -356,17 +391,15 @@ socket.on("timer", (time) => {
   // console.log(`time is ticking: ${time}`);
 });
 
-const restart_Btns = [
-  document.getElementById("restart_Btn_P1"),
-  document.getElementById("restart_Btn_P2"),
-];
-restart_Btns.forEach((r) => {
-  r.addEventListener("click", () => {
-    if (hockeyBall !== undefined && hockeyBall.roomNo !== undefined) {
-      socket.emit("restartGame", hockeyBall.roomNo);
-    }
-  });
-});
+// const restart_Btns = [
+//   document.getElementById("restart_Btn_P1"),
+//   document.getElementById("restart_Btn_P2"),
+// ];
+// restart_Btns.forEach((r) => {
+//   r.addEventListener("click", () => {
+//     socket.emit("restartGame", hockeyBall.roomNo);
+//   });
+// });
 
 socket.on("restart", () => {
   const winner__container = document.querySelector(".winner__container");
