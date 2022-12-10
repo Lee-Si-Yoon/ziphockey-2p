@@ -130,7 +130,7 @@ body {
     user-select: none;
     touch-action: none;
     pointer-events: none;
-    border: 1px solid var(--orange);
+    // border: 1px solid var(--orange);
   }
 }
 .controller__P1 {
@@ -209,8 +209,11 @@ body {
   user-select: none;
   touch-action: none;
   pointer-events: none;
-  border: 1px solid var(--orange);
+  // border: 1px solid var(--orange);
   h1 {
+    user-select: none;
+    touch-action: none;
+    pointer-events: none;
     font-family: "PPNeueBit-Bold";
     letter-spacing: 0.05em;
     font-size: 48px;
@@ -221,6 +224,9 @@ body {
     color: var(--black);
   }
   h2 {
+    user-select: none;
+    touch-action: none;
+    pointer-events: none;
     font-family: "BEANPOLL-Bold";
     position: absolute;
     color: white;
@@ -315,6 +321,9 @@ body {
       line-height: 0%;
     }
     h1 {
+      user-select: none;
+      touch-action: none;
+      pointer-events: none;
       color: white;
       font-family: "PPNeueBit-Bold";
       letter-spacing: 0.05em;
@@ -344,6 +353,9 @@ body {
     justify-content: center;
     align-items: center;
     p {
+      user-select: none;
+      touch-action: none;
+      pointer-events: none;
       color: white;
       font-family: "PPNeueBit-Bold";
       letter-spacing: 0.05em;
