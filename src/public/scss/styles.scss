@@ -130,6 +130,7 @@ body {
     user-select: none;
     touch-action: none;
     pointer-events: none;
+    border: 1px solid var(--orange);
   }
 }
 .controller__P1 {
@@ -147,7 +148,9 @@ body {
   position: relative;
   // touch-action: none;
   cursor: pointer;
+  user-select: none;
   touch-action: none;
+  // pointer-events: none;
   // border: 1px solid var(--sand);
   .button {
     position: absolute;
@@ -206,7 +209,7 @@ body {
   user-select: none;
   touch-action: none;
   pointer-events: none;
-  // border: 1px solid var(--orange);
+  border: 1px solid var(--orange);
   h1 {
     font-family: "PPNeueBit-Bold";
     letter-spacing: 0.05em;
