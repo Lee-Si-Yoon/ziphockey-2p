@@ -6,9 +6,9 @@ block content
       img(draggable="false").img__controller
       img(draggable="false").img_screws
       div.status__container.mb-10
-        div#status__P2.status
+        div(draggable="false")#status__P2.status
           p P2 / 01
-        button#lock__button__P2.lock__button lock
+        button(draggable="false")#lock__button__P2.lock__button lock
       div.button__container__P2.button__container
         div.button.up
           img(draggable="false").img__button__up.img__button
@@ -21,22 +21,22 @@ block content
       div.scoring__container.mt-10
         div.blocker
         div.player__scores__container
-          div#player__scores__P1.player__scores
-            h1#plate__P2__P1 P1
+          div(draggable="false")#player__scores__P1.player__scores
+            h1(draggable="false")#plate__P2__P1 P1
             img(draggable="false").img__board__score
-            h2#scores__P2__P1 0
+            h2(draggable="false")#scores__P2__P1 0
           div#player__scores__P2.player__scores
-            h1#plate__P2__P2 P2
+            h1(draggable="false")#plate__P2__P2 P2
             img(draggable="false").img__board__score
-            h2#scores__P2__P2 0
+            h2(draggable="false")#scores__P2__P2 0
           div#player__scores__P3.player__scores.hidden
-            h1#plate__P2__P3 P3
+            h1(draggable="false")#plate__P2__P3 P3
             img(draggable="false").img__board__score
-            h2#scores__P2__P3 0
+            h2(draggable="false")#scores__P2__P3 0
         div.timer__container
-          h1 TIME
+          h1(draggable="false") TIME
           img(draggable="false").img__board__time
-          h2#scores__time__P2 000
+          h2(draggable="false")#scores__time__P2 000
       
 
     section.playground
@@ -64,22 +64,22 @@ block content
       div.scoring__container.mb-10
         div.blocker
         div.player__scores__container
-          div#player__scores__P1.player__scores
-            h1#plate__P1__P1 P1
+          div(draggable="false")#player__scores__P1.player__scores
+            h1(draggable="false")#plate__P1__P1 P1
             img(draggable="false").img__board__score
-            h2#scores__P1__P1 0
+            h2(draggable="false")#scores__P1__P1 0
           div#player__scores__P2.player__scores
-            h1#plate__P1__P2 P2
+            h1(draggable="false")#plate__P1__P2 P2
             img(draggable="false").img__board__score
-            h2#scores__P1__P2 0
+            h2(draggable="false")#scores__P1__P2 0
           div#player__scores__P3.player__scores.hidden
-            h1#plate__P1__P3 P3
+            h1(draggable="false")#plate__P1__P3 P3
             img(draggable="false").img__board__score
-            h2#scores__P1__P3 0
+            h2(draggable="false")#scores__P1__P3 0
         div.timer__container
-          h1 TIME
+          h1(draggable="false") TIME
           img(draggable="false").img__board__time
-          h2#scores__time__P1 000
+          h2(draggable="false")#scores__time__P1 000
       div.button__container__P1.button__container
         div.button.up
           img(draggable="false").img__button__up.img__button
@@ -90,9 +90,9 @@ block content
         div(draggable="false").button.right
           img.img__button__right.img__button
       div.status__container.mt-10
-        div#status__P1.status
+        div(draggable="false")#status__P1.status
           p P1 / 01
-        button#lock__button__P1.lock__button lock
+        button(draggable="false")#lock__button__P1.lock__button lock
           
 
   script(src="/socket.io/socket.io.js") 

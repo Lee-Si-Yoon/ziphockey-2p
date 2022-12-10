@@ -80,6 +80,20 @@ function lockButton() {
 lockButton();
 // 핀치 줌 막기
 function UX_preventers() {
+  const H1 = document.querySelectorAll("h1");
+  const H2 = document.querySelectorAll("h2");
+  H1.forEach((h) =>
+    h.addEventListener("touchstart", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    })
+  );
+  H2.forEach((h) =>
+    h.addEventListener("touchstart", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    })
+  );
   // const play = document.querySelector(".play");
   // play.addEventListener(
   //   "touchmove",
