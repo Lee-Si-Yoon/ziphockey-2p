@@ -82,18 +82,26 @@ lockButton();
 function UX_preventers() {
   const H1 = document.querySelectorAll("h1");
   const H2 = document.querySelectorAll("h2");
-  H1.forEach((h) =>
+  H1.forEach((h) => {
     h.addEventListener("touchstart", (event) => {
       event.preventDefault();
       event.stopPropagation();
-    })
-  );
-  H2.forEach((h) =>
+    });
+    h.addEventListener("gesturestart", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    });
+  });
+  H2.forEach((h) => {
     h.addEventListener("touchstart", (event) => {
       event.preventDefault();
       event.stopPropagation();
-    })
-  );
+    });
+    h.addEventListener("gesturestart", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+    });
+  });
   // const play = document.querySelector(".play");
   // play.addEventListener(
   //   "touchmove",
@@ -117,6 +125,17 @@ function UX_preventers() {
   );
   document.addEventListener(
     "touchstart",
+    (event) => {
+      if (event.touches.length > 1) {
+        // console.log("zoom plz stahp");
+        event.preventDefault();
+        event.stopPropagation(); // maybe useless
+      }
+    },
+    { passive: false }
+  );
+  document.addEventListener(
+    "gesturestart",
     (event) => {
       if (event.touches.length > 1) {
         // console.log("zoom plz stahp");
