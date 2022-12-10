@@ -41,8 +41,9 @@ a {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
-    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   touch-action: manipulation;
@@ -126,6 +127,9 @@ body {
   }
   .scoring__container {
     transform: rotate(-180deg);
+    user-select: none;
+    touch-action: none;
+    pointer-events: none;
   }
 }
 .controller__P1 {
@@ -199,6 +203,9 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  user-select: none;
+  touch-action: none;
+  pointer-events: none;
   // border: 1px solid var(--orange);
   h1 {
     font-family: "PPNeueBit-Bold";
