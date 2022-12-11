@@ -48,7 +48,7 @@ class Controller {
           }
         }
       }
-      this.emitCommands(controls);
+      // this.emitCommands(controls);
     };
     this.pointerMoveEvent = (e) => {
       // console.log(e);
