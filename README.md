@@ -30,6 +30,7 @@ socket.io, nodejs, express, pug, gsap
 </div>
 
 $${\color{yellow}Yellow \color{black} \space is \space emitters}$$
+
 $${\color{green}Green \color{black} \space is \space followers}$$
 
 ## Bugs not fixed
