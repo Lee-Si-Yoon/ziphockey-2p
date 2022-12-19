@@ -94,3 +94,4 @@ document.addEventListener(
 ## Notes
 
 - 서버비용으로 인해 사이트를 닫아뒀습니다
+- 3P도 마찬가지의 이유로 인해 레포를 비공개했습니다
